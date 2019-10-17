@@ -307,25 +307,31 @@ $ gem sources -l
 
 ##### gitee镜像
 
-```
+```bash
 pod repo remove master   
 pod repo add master https://gitee.com/mirrors/CocoaPods-Specs   
 pod repo update   
-复制代码
 ```
 
 ##### 清华镜像
 
-```
+```bash
 pod repo remove master   
 pod repo add master https://mirrors.tuna.tsinghua.edu.cn/git/CocoaPods/Specs.git   
 pod repo update   
-复制代码
+```
+
+对于 Cocoapods 新的版本，需要使用如下的方法：
+
+```bash
+pod repo remove master
+cd ~/.cocoapods/repos
+git clone https://mirrors.tuna.tsinghua.edu.cn/git/CocoaPods/Specs.git master
 ```
 
 ##### 你的 xcode 工程中如果有Podfile的话，请修改加入下面的行：
 
-```
+```ruby
 source 'https://gitee.com/mirrors/CocoaPods-Specs.git'
 source 'https://mirrors.tuna.tsinghua.edu.cn/git/CocoaPods/Specs.git'
 ```
