@@ -619,6 +619,32 @@ composer config -g repo.packagist composer https://packagist.laravel-china.org
 
 
 
+#### Sequel
+
+完成pip加速配置之后，`$HOME/.pip/pip.conf` 看起来可能会像这样：
+
+```ini
+[global]
+#index-url = http://pypi.mirrors.ustc.edu.cn/simple
+
+trusted-host =  mirrors.aliyun.com
+index-url = http://mirrors.aliyun.com/pypi/simple
+# index-url = http://pypi.douban.com/simple
+# trusted-host = pypi.douban.com
+disable-pip-version-check = true
+timeout = 120
+
+[install]
+ignore-installed = true
+# 不自动安装依赖的时候设置此选项
+# no-dependencies = yes
+
+[list]
+format = columns
+```
+
+
+
 
 
 
