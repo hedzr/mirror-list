@@ -485,7 +485,7 @@ export RUSTUP_DIST_SERVER=https://mirrors.tuna.tsinghua.edu.cn/rustup
 
 
 
-### R Cran 进项
+### R CRAN
 
 采用清华开源站：
 
@@ -498,6 +498,8 @@ options("repos" = c(CRAN="https://mirrors.tuna.tsinghua.edu.cn/CRAN/"))
 ```
 
 打开 R 即可使用该 CRAN 镜像源安装 R 软件包。
+
+
 
 也可以使用其他镜像站：
 
