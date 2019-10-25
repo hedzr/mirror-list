@@ -483,6 +483,35 @@ export RUSTUP_DIST_SERVER=https://mirrors.tuna.tsinghua.edu.cn/rustup
 
 
 
+
+
+### R Cran 进项
+
+采用清华开源站：
+
+[CRAN](https://cran.r-project.org/) (The Comprehensive R Archive Network) 镜像源配置文件之一是 `.Rprofile` (linux 下位于 `~/.Rprofile` )。
+
+在文末添加如下语句:
+
+```
+options("repos" = c(CRAN="https://mirrors.tuna.tsinghua.edu.cn/CRAN/"))
+```
+
+打开 R 即可使用该 CRAN 镜像源安装 R 软件包。
+
+也可以使用其他镜像站：
+
+- https://mirror.lzu.edu.cn/CRAN
+- ...
+
+如果使用 R Console，可以在 Perferences 设置对话框中直接设置官方镜像的上海、香港、兰州等节点。
+
+
+
+
+
+
+
 ### Maven
 
 #### 采用aliyun镜像
