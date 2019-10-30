@@ -6,9 +6,17 @@
 
 这里做一个集中，尽管以前都是遇到时立即搜索，但是集中一下之后，看起来也很壮观的。
 
-当然，欢迎完善它。
+###### 当然，欢迎完善它。
 
 - https://github.com/hedzr/mirror-list
+
+###### 如何更好的浏览/阅读这篇文章：
+
+1. 可以寻找chrome插件 Github Markdown Outline Extension，但是我好像是拿来修订了之后才能使用的。
+2. 可以寻找chrome插件 HTML5 Outliner
+3. 在阅读平台上：
+   1. <https://juejin.im/post/5da57638f265da5b932e7418>
+   2. <https://segmentfault.com/a/1190000020693560>
 
 
 
