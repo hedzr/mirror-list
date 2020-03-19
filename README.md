@@ -3,6 +3,48 @@
 > mirrors-for-coder
 
 
+## Table of Contents
+
+
+* [各种各样的镜像加速](#%E5%90%84%E7%A7%8D%E5%90%84%E6%A0%B7%E7%9A%84%E9%95%9C%E5%83%8F%E5%8A%A0%E9%80%9F)
+  * [China Mirrors](#china-mirrors)
+    * [GitHub Clone](#github-clone)
+    * [Docker CE](#docker-ce)
+    * [Ubuntu Apt Source](#ubuntu-apt-source)
+      * [其他方法](#%E5%85%B6%E4%BB%96%E6%96%B9%E6%B3%95)
+        * [使用 apt\-select](#%E4%BD%BF%E7%94%A8-apt-select)
+        * [使用mirrors CDN](#%E4%BD%BF%E7%94%A8mirrors-cdn)
+    * [Alpine Apk](#alpine-apk)
+    * [Arch Linux Pacman](#arch-linux-pacman)
+    * [Go Modules](#go-modules)
+    * [Android SDK](#android-sdk)
+    * [Gradle](#gradle)
+    * [Gem 和 CocoaPods](#gem-%E5%92%8C-cocoapods)
+      * [替换 Ruby 源](#%E6%9B%BF%E6%8D%A2-ruby-%E6%BA%90)
+        * [移除现有的Ruby镜像](#%E7%A7%BB%E9%99%A4%E7%8E%B0%E6%9C%89%E7%9A%84ruby%E9%95%9C%E5%83%8F)
+        * [添加国内最新镜像](#%E6%B7%BB%E5%8A%A0%E5%9B%BD%E5%86%85%E6%9C%80%E6%96%B0%E9%95%9C%E5%83%8F)
+        * [查看当前镜像](#%E6%9F%A5%E7%9C%8B%E5%BD%93%E5%89%8D%E9%95%9C%E5%83%8F)
+      * [加速 Cocoapods](#%E5%8A%A0%E9%80%9F-cocoapods)
+        * [gitee镜像](#gitee%E9%95%9C%E5%83%8F)
+        * [清华镜像](#%E6%B8%85%E5%8D%8E%E9%95%9C%E5%83%8F)
+        * [你的 xcode 工程中如果有Podfile的话，请修改加入下面的行：](#%E4%BD%A0%E7%9A%84-xcode-%E5%B7%A5%E7%A8%8B%E4%B8%AD%E5%A6%82%E6%9E%9C%E6%9C%89podfile%E7%9A%84%E8%AF%9D%E8%AF%B7%E4%BF%AE%E6%94%B9%E5%8A%A0%E5%85%A5%E4%B8%8B%E9%9D%A2%E7%9A%84%E8%A1%8C)
+    * [Homebrew](#homebrew)
+      * [复原](#%E5%A4%8D%E5%8E%9F)
+    * [Flutter &amp; Dart Pub](#flutter--dart-pub)
+      * [Flutter 镜像安装帮助](#flutter-%E9%95%9C%E5%83%8F%E5%AE%89%E8%A3%85%E5%B8%AE%E5%8A%A9)
+      * [Pub 镜像安装帮助](#pub-%E9%95%9C%E5%83%8F%E5%AE%89%E8%A3%85%E5%B8%AE%E5%8A%A9)
+    * [Rust Cargo 和 Rustup](#rust-cargo-%E5%92%8C-rustup)
+    * [R CRAN](#r-cran)
+    * [Maven](#maven)
+      * [采用aliyun镜像](#%E9%87%87%E7%94%A8aliyun%E9%95%9C%E5%83%8F)
+    * [Python pip 和 composer](#python-pip-%E5%92%8C-composer)
+      * [Pip](#pip)
+      * [Composer](#composer)
+      * [Sequel](#sequel)
+    * [Node 和 npm/Yarn](#node-%E5%92%8C-npmyarn)
+    * [Vagrant](#vagrant)
+  * [Conclusion](#conclusion)
+
 
 这里做一个集中，尽管以前都是遇到时立即搜索，但是集中一下之后，看起来也很壮观的。
 
