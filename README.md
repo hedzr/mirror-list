@@ -219,7 +219,7 @@ https://askubuntu.com/questions/39922/how-do-you-select-the-fastest-mirror-from-
 
 ##### 使用 apt-select
 
-可以用pip安装它：
+可以用 `pip` 安装它：
 
 ```bash
 pip install apt-select
@@ -307,14 +307,23 @@ export GOPROXY=https://goproxy.cn
 
 如果你想搭建私服，可以遵循 Go Modules 的 API 规范自己实现一个代理服务器，也可以使用开源的  [athens](https://github.com/gomods/athens) 项目自建一个服务器。
 
-如果使用 Golang 1.13 以上版本的话，一下语法可用：
+如果使用 Golang 1.13 以上版本的话，以下语法可用：
 
 ```bash
-export GOPROXY=direct,https://goproxy.cn,https://goproxy.io,https://gocenter.i
-o
+export GOPROXY=https://goproxy.cn,https://goproxy.io,https://gocenter.i
+o,direct
 ```
 
+关于中国的 goproxy.cn：[干货满满的Go Modules 和goproxy.cn - 掘金](https://juejin.im/post/5d8ee2db6fb9a04e0b0d9c8b)
 
+关于 go 1.13 的 Modules：[Go module 再回顾| 鸟窝](https://colobu.com/2019/09/23/review-go-module-again/)
+
+关于 [athens](https://github.com/gomods/athens) 实现以及 Go Modules Communicated Protocol: [Go modules and project Athens - Speechmatics](https://www.speechmatics.com/wp-content/uploads/2019/07/Go-modules-and-project-Athens.pdf), Athens Official Site: https://docs.gomods.io/。
+
+关于 Go Modules 的通讯协议：[为Go module 搭建私服](https://blog.cyeam.com/golang/2018/09/27/athens) 以及 [The Design of Athens](https://docs.gomods.io/design/)：
+
+1. [Proxy internals](https://docs.gomods.io/design/proxy) - basics of the Athens proxy architecture and major features
+2. [Communication flow](https://docs.gomods.io/design/communication) - how the Athens proxy interacts with the outside world to fetch and store code, respond to user requests, and so on
 
 
 
