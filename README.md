@@ -179,87 +179,6 @@ Docker CE 的具体加速办法有很多种，然而各种版本的本质都是�
 
 
 
-
-
-
-
-### Ubuntu Apt Source
-
-如果你使用桌面版本，则 Ubuntu 的软件源设置中，你可以选取最近的地区，例如中国大陆，从而加速软件包下载速度。
-
-如果使用 Server 版本，则可以明确地使用清华镜像（或者自行使用其他镜像）
-
-```bash
-# 默认注释了源码镜像以提高 apt update 速度，如有需要可自行取消注释
-deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ bionic main restricted universe multiverse
-# deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ bionic main restricted universe multiverse
-deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ bionic-updates main restricted universe multiverse
-# deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ bionic-updates main restricted universe multiverse
-deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ bionic-backports main restricted universe multiverse
-# deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ bionic-backports main restricted universe multiverse
-deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ bionic-security main restricted universe multiverse
-# deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ bionic-security main restricted universe multiverse
-
-# 预发布软件源，不建议启用
-# deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ bionic-proposed main restricted universe multiverse
-# deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ bionic-proposed main restricted universe multiverse
-```
-
-以上例子为 18.04 版本的替换内容。你可以直接访问清华开源站查找其他版本：
-
-https://mirror.tuna.tsinghua.edu.cn/help/ubuntu/
-
-
-
-#### 其他方法
-
-https://askubuntu.com/questions/39922/how-do-you-select-the-fastest-mirror-from-the-command-line
-
-
-
-##### 使用 apt-select
-
-可以用 `pip` 安装它：
-
-```bash
-pip install apt-select
-```
-
-然后运行它并跟随提示走：
-
-```bash
-apt-select --country US -t 5 --choose
-```
-
-
-
-
-
-##### 使用mirrors CDN
-
-apt-get [now supports](http://mvogt.wordpress.com/2011/03/21/the-apt-mirror-method/) a 'mirror' method that will automatically select a good mirror based on your location. Putting:
-
-```
-deb mirror://mirrors.ubuntu.com/mirrors.txt precise main restricted universe multiverse
-deb mirror://mirrors.ubuntu.com/mirrors.txt precise-updates main restricted universe multiverse
-deb mirror://mirrors.ubuntu.com/mirrors.txt precise-backports main restricted universe multiverse
-deb mirror://mirrors.ubuntu.com/mirrors.txt precise-security main restricted universe multiverse
-```
-
-on the top in your `/etc/apt/sources.list` file should be all that is needed to make it automatically pick a mirror for you based on your geographical location.
-
-你可以无脑地使用 sed 来搞定：
-
-```bash
-sudo sed -i 's%us.archive.ubuntu.com/ubuntu/%mirrors.ubuntu.com/mirrors.txt%' /etc/apt/sources.list
-```
-
-
-
-
-
-
-
 ### Alpine Apk
 
 清华提供一种Apk源加速方式：https://mirror.tuna.tsinghua.edu.cn/help/alpine/
@@ -271,6 +190,18 @@ sed -i 's/dl-cdn.alpinelinux.org/mirrors.tuna.tsinghua.edu.cn/g' /etc/apk/reposi
 ```
 
 制作 Docker 镜像时，这是很有用的，节约生命真的是美德。
+
+
+
+
+
+### Android SDK
+
+国内有多家组织提供 Android SDK的镜像缓存，甚至个人也可以很容易地建立这样的缓存，如果你有国内访问速度很好的国外服务器的话。
+
+但是，随着时间推移，现在这些镜像基本上都已失效了。
+
+取而代之的是，目前，Android的官方源是可以直连的，且能达到正常速度，所以还是赶紧滴做点负责任的app出来吧，不要只是会矽肺或者偷偷上传神马的。
 
 
 
@@ -289,6 +220,36 @@ sed -i 's/dl-cdn.alpinelinux.org/mirrors.tuna.tsinghua.edu.cn/g' /etc/apk/reposi
 
 
 
+
+
+
+### Flutter & Dart Pub
+
+flutter 官网有专门的页面讲述加速问题：
+
+https://flutter.dev/community/china
+
+
+
+#### Flutter 镜像安装帮助
+
+Flutter 是一款跨平台的移动应用开发框架，由 Google 开源。用 Flutter 开发的应用可以直接编译成 ARM 代码运行在 Android 和 iOS 系统上。
+
+可以使用清华镜像：https://mirror.tuna.tsinghua.edu.cn/help/flutter/
+
+Flutter 安装时需要从 Google Storage 下载文件，如您的网络访问 Google 受阻，建议使用本镜像。使用方法为设置环境变量 `FLUTTER_STORAGE_BASE_URL`，并指向 TUNA 镜像站。
+
+```
+$ export FLUTTER_STORAGE_BASE_URL="https://mirrors.tuna.tsinghua.edu.cn/flutter"
+```
+
+若希望长期使用 TUNA 镜像：
+
+```
+$ echo 'export FLUTTER_STORAGE_BASE_URL="https://mirrors.tuna.tsinghua.edu.cn/flutter"' >> ~/.bashrc
+```
+
+此外 Flutter 开发中还需要用到 Dart 语言的包管理器 Pub，其镜像使用方法参见[Pub 镜像安装帮助](https://mirror.tuna.tsinghua.edu.cn/help/dart-pub/)。
 
 
 
@@ -314,6 +275,8 @@ export GOPROXY=https://goproxy.cn,https://goproxy.io,https://gocenter.i
 o,direct
 ```
 
+#### 参考
+
 关于中国的 goproxy.cn：[干货满满的Go Modules 和goproxy.cn - 掘金](https://juejin.im/post/5d8ee2db6fb9a04e0b0d9c8b)
 
 关于 go 1.13 的 Modules：[Go module 再回顾| 鸟窝](https://colobu.com/2019/09/23/review-go-module-again/)
@@ -324,18 +287,6 @@ o,direct
 
 1. [Proxy internals](https://docs.gomods.io/design/proxy) - basics of the Athens proxy architecture and major features
 2. [Communication flow](https://docs.gomods.io/design/communication) - how the Athens proxy interacts with the outside world to fetch and store code, respond to user requests, and so on
-
-
-
-
-
-### Android SDK
-
-国内有多家组织提供 Android SDK的镜像缓存，甚至个人也可以很容易地建立这样的缓存，如果你有国内访问速度很好的国外服务器的话。
-
-但是，随着时间推移，现在这些镜像基本上都已失效了。
-
-取而代之的是，目前，Android的官方源是可以直连的，且能达到正常速度，所以还是赶紧滴做点负责任的app出来吧，不要只是会矽肺或者偷偷上传神马的。
 
 
 
@@ -485,36 +436,6 @@ export HOMEBREW_NO_AUTO_UPDATE=1
 
 
 
-### Flutter & Dart Pub
-
-flutter 官网有专门的页面讲述加速问题：
-
-https://flutter.dev/community/china
-
-
-
-#### Flutter 镜像安装帮助
-
-Flutter 是一款跨平台的移动应用开发框架，由 Google 开源。用 Flutter 开发的应用可以直接编译成 ARM 代码运行在 Android 和 iOS 系统上。
-
-可以使用清华镜像：https://mirror.tuna.tsinghua.edu.cn/help/flutter/
-
-Flutter 安装时需要从 Google Storage 下载文件，如您的网络访问 Google 受阻，建议使用本镜像。使用方法为设置环境变量 `FLUTTER_STORAGE_BASE_URL`，并指向 TUNA 镜像站。
-
-```
-$ export FLUTTER_STORAGE_BASE_URL="https://mirrors.tuna.tsinghua.edu.cn/flutter"
-```
-
-若希望长期使用 TUNA 镜像：
-
-```
-$ echo 'export FLUTTER_STORAGE_BASE_URL="https://mirrors.tuna.tsinghua.edu.cn/flutter"' >> ~/.bashrc
-```
-
-此外 Flutter 开发中还需要用到 Dart 语言的包管理器 Pub，其镜像使用方法参见[Pub 镜像安装帮助](https://mirror.tuna.tsinghua.edu.cn/help/dart-pub/)。
-
-
-
 #### Pub 镜像安装帮助
 
 [Pub](https://pub.dartlang.org/) 是 Dart 官方的包管理器。跨平台的前端应开发 框架 [Flutter](https://flutter.dev/) 也基于 Dart 并且可以使用大部分 Pub 中的 库。
@@ -535,80 +456,6 @@ $ echo 'export PUB_HOSTED_URL="https://mirrors.tuna.tsinghua.edu.cn/dart-pub/"' 
 ```
 
 
-
-
-
-### Rust Cargo 和 Rustup
-
-Rust 使用 creates.io，国内也有相应的提速手段：
-
-https://lug.ustc.edu.cn/wiki/mirrors/help/rust-crates
-
-首先你需要在 $HOME/.cargo/config 中添加如下内容
-
-```ini
-[registry]
-index = "git://mirrors.ustc.edu.cn/crates.io-index"
-# Or
-# index = "http://mirrors.ustc.edu.cn/crates.io-index"
-```
-
-如果 cargo 版本为 0.13.0 或以上, 需要更改 $HOME/.cargo/config 为以下内容:
-
-```ini
-[source.crates-io]
-registry = "https://github.com/rust-lang/crates.io-index"
-replace-with = 'ustc'
-[source.ustc]
-registry = "git://mirrors.ustc.edu.cn/crates.io-index"
-```
-
-有兴趣自建的朋友，可以看看：
-
-https://github.com/rust-lang/crates.io/blob/master/docs/MIRROR.md
-
-
-
-清华TUNA 也有 rustup 相应的镜像
-
-```bash
-# export CARGO_HOME=$HOME/.cargo
-# export RUSTUP_HOME=$HOME/.rustup
-export RUSTUP_DIST_SERVER=https://mirrors.tuna.tsinghua.edu.cn/rustup
-```
-
-详见：https://mirror.tuna.tsinghua.edu.cn/help/rustup/
-
-
-
-
-
-
-
-
-
-### R CRAN
-
-采用清华开源站：
-
-[CRAN](https://cran.r-project.org/) (The Comprehensive R Archive Network) 镜像源配置文件之一是 `.Rprofile` (linux 下位于 `~/.Rprofile` )。
-
-在文末添加如下语句:
-
-```
-options("repos" = c(CRAN="https://mirrors.tuna.tsinghua.edu.cn/CRAN/"))
-```
-
-打开 R 即可使用该 CRAN 镜像源安装 R 软件包。
-
-
-
-也可以使用其他镜像站：
-
-- https://mirror.lzu.edu.cn/CRAN
-- ...
-
-如果使用 R Console，可以在 Perferences 设置对话框中直接设置官方镜像的上海、香港、兰州等节点。
 
 
 
@@ -712,6 +559,26 @@ options("repos" = c(CRAN="https://mirrors.tuna.tsinghua.edu.cn/CRAN/"))
 
 
 
+
+
+
+
+### Node 和 npm/Yarn
+
+可以更换镜像：
+
+- 阿里：`yarn config set registry https://registry.npm.taobao.org`
+- 华为：`yarn config set registry https://mirrors.huaweicloud.com/repository/npm/`
+- Node-Sass：`npm config set sass_binary_site https://mirrors.huaweicloud.com/node-sass/`
+
+
+
+
+
+
+
+
+
 ### Python pip 和 composer
 
 #### Pip
@@ -782,17 +649,164 @@ format = columns
 
 
 
-### Node 和 npm/Yarn
-
-可以更换镜像：
-
-- 阿里：`yarn config set registry https://registry.npm.taobao.org`
-- 华为：`yarn config set registry https://mirrors.huaweicloud.com/repository/npm/`
-- Node-Sass：`npm config set sass_binary_site https://mirrors.huaweicloud.com/node-sass/`
 
 
 
 
+
+
+### R CRAN
+
+采用清华开源站：
+
+[CRAN](https://cran.r-project.org/) (The Comprehensive R Archive Network) 镜像源配置文件之一是 `.Rprofile` (linux 下位于 `~/.Rprofile` )。
+
+在文末添加如下语句:
+
+```
+options("repos" = c(CRAN="https://mirrors.tuna.tsinghua.edu.cn/CRAN/"))
+```
+
+打开 R 即可使用该 CRAN 镜像源安装 R 软件包。
+
+
+
+也可以使用其他镜像站：
+
+- https://mirror.lzu.edu.cn/CRAN
+- ...
+
+如果使用 R Console，可以在 Perferences 设置对话框中直接设置官方镜像的上海、香港、兰州等节点。
+
+
+
+
+
+### Rust Cargo 和 Rustup
+
+Rust 使用 creates.io，国内也有相应的提速手段：
+
+https://lug.ustc.edu.cn/wiki/mirrors/help/rust-crates
+
+首先你需要在 $HOME/.cargo/config 中添加如下内容
+
+```ini
+[registry]
+index = "git://mirrors.ustc.edu.cn/crates.io-index"
+# Or
+# index = "http://mirrors.ustc.edu.cn/crates.io-index"
+```
+
+如果 cargo 版本为 0.13.0 或以上, 需要更改 $HOME/.cargo/config 为以下内容:
+
+```ini
+[source.crates-io]
+registry = "https://github.com/rust-lang/crates.io-index"
+replace-with = 'ustc'
+[source.ustc]
+registry = "git://mirrors.ustc.edu.cn/crates.io-index"
+```
+
+有兴趣自建的朋友，可以看看：
+
+https://github.com/rust-lang/crates.io/blob/master/docs/MIRROR.md
+
+
+
+清华TUNA 也有 rustup 相应的镜像
+
+```bash
+# export CARGO_HOME=$HOME/.cargo
+# export RUSTUP_HOME=$HOME/.rustup
+export RUSTUP_DIST_SERVER=https://mirrors.tuna.tsinghua.edu.cn/rustup
+```
+
+详见：https://mirror.tuna.tsinghua.edu.cn/help/rustup/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+### Ubuntu Apt Source
+
+如果你使用桌面版本，则 Ubuntu 的软件源设置中，你可以选取最近的地区，例如中国大陆，从而加速软件包下载速度。
+
+如果使用 Server 版本，则可以明确地使用清华镜像（或者自行使用其他镜像）
+
+```bash
+# 默认注释了源码镜像以提高 apt update 速度，如有需要可自行取消注释
+deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ bionic main restricted universe multiverse
+# deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ bionic main restricted universe multiverse
+deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ bionic-updates main restricted universe multiverse
+# deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ bionic-updates main restricted universe multiverse
+deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ bionic-backports main restricted universe multiverse
+# deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ bionic-backports main restricted universe multiverse
+deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ bionic-security main restricted universe multiverse
+# deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ bionic-security main restricted universe multiverse
+
+# 预发布软件源，不建议启用
+# deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ bionic-proposed main restricted universe multiverse
+# deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ bionic-proposed main restricted universe multiverse
+```
+
+以上例子为 18.04 版本的替换内容。你可以直接访问清华开源站查找其他版本：
+
+https://mirror.tuna.tsinghua.edu.cn/help/ubuntu/
+
+
+
+#### 其他方法
+
+https://askubuntu.com/questions/39922/how-do-you-select-the-fastest-mirror-from-the-command-line
+
+
+
+##### 使用 apt-select
+
+可以用 `pip` 安装它：
+
+```bash
+pip install apt-select
+```
+
+然后运行它并跟随提示走：
+
+```bash
+apt-select --country US -t 5 --choose
+```
+
+
+
+
+
+##### 使用mirrors CDN
+
+apt-get [now supports](http://mvogt.wordpress.com/2011/03/21/the-apt-mirror-method/) a 'mirror' method that will automatically select a good mirror based on your location. Putting:
+
+```
+deb mirror://mirrors.ubuntu.com/mirrors.txt precise main restricted universe multiverse
+deb mirror://mirrors.ubuntu.com/mirrors.txt precise-updates main restricted universe multiverse
+deb mirror://mirrors.ubuntu.com/mirrors.txt precise-backports main restricted universe multiverse
+deb mirror://mirrors.ubuntu.com/mirrors.txt precise-security main restricted universe multiverse
+```
+
+on the top in your `/etc/apt/sources.list` file should be all that is needed to make it automatically pick a mirror for you based on your geographical location.
+
+你可以无脑地使用 sed 来搞定：
+
+```bash
+sudo sed -i 's%us.archive.ubuntu.com/ubuntu/%mirrors.ubuntu.com/mirrors.txt%' /etc/apt/sources.list
+```
 
 
 
