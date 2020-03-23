@@ -74,6 +74,8 @@
 
 对于大型仓库，改走SSH协议进行clone的话，走到正常速度的几率较大，但此时的速度相较于HTTPS而言通常会有所损耗。
 
+#### 修改 hosts 文件
+
 但下面还有一种较为费事的方法，通过修改 hosts 文件来完成提速，无需科学也无需代理加速也无需镜像加速（GitHub是不太可能有镜像的）。具体来说请接下去阅读：
 
 首先在 https://www.ipaddress.com/ 查询这三个域名的地址：
@@ -99,6 +101,47 @@
 $ dig github.com +short
 140.82.118.3
 ```
+
+
+
+修改 hosts 文件能够起效的原因有赖于IP未被封禁。但实际上这个并不一定如此，封禁是多种手段同时采用的，此外、不同省份地区的不同运营商的具体动作也会有点区别。
+
+比较根本的方法还是两种，一是在国外VPS直接clone，然后rsync到本机；而是git走SSH协议且启用代理。
+
+#### Git SSH协议代理
+
+git走SSH协议时，可以在 `$HOME/.ssh/config` 中为其指定特别约定：
+
+```bash
+host github.com
+  User git
+  Hostname ssh.github.com
+  identityFile ~/.ssh/git/id_rsa
+  ProxyCommand nc -X 5 -x 127.0.0.1:1080 %h %p
+```
+
+在这里，定制了免密码时所用的SSH私钥 `~/.ssh/git/id_rsa`，以及通过 `ProxyCommand` 指定了转发 git SSH 流量到 `127.0.0.1:1080` SOCKS5 代理服务器上。
+
+#### Git HTTPS协议代理
+
+值得注意的是，如果是使用 Git https 协议的话，你需要指定 `HTTPS_PROXY` 环境变量到一个 HTTP 代理，从而转发流量。根据我的经验，在这个时候提供一个诸如 `socks://127.0.0.1:1080` 的 SOCKS4/5 代理，得到的效果会非常有限，不如讲该代理包装为 HTTP 后再使用。
+
+如果不想使用 `HTTPS_PROXY` 环境变量，Git 允许在其全局配置文件 `$HOME/.gitconfig` 中指定特定主机或者所有主机的专用代理：
+
+```bash
+[http "https://skia.googlesource.com"]
+	proxy = http://127.0.0.1:8080
+[https "https://skia.googlesource.com"]
+	proxy = http://127.0.0.1:8080
+[http "https://googlesource.com"]
+	proxy = http://127.0.0.1:8080
+[https "https://googlesource.com"]
+	proxy = http://127.0.0.1:8080
+```
+
+
+
+综合比较起来，Git 走 SSH 协议且采用一个很好的 SOCKS5服务器的话，会相当顺利，很难遇到各色怪现象。
 
 
 
