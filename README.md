@@ -1,6 +1,6 @@
 # 各种各样的镜像加速
 
-> mirrors-for-coder
+> mirrors-for-coder(s)
 
 
 ## Table of Contents
@@ -69,9 +69,19 @@
 
 1. 可以寻找chrome插件 Github Markdown Outline Extension，但是我好像是拿来修订了之后才能使用的。
 2. 可以寻找chrome插件 HTML5 Outliner
-3. 在阅读平台上：
+3. 在阅读平台上（仅有首版，不再更新，怪麻烦的）：
    1. <https://juejin.im/post/5da57638f265da5b932e7418>
    2. <https://segmentfault.com/a/1190000020693560>
+
+## License
+
+本文源码像代码一样，MIT，随便用。
+
+本文的内容，基本上没版权，在公共域。
+
+本文的排版和组织，我拿住版权了，哈哈，MIT，你还是可以用，随便。
+
+少部分的闹骚，如果有的话，没版权，我放弃，你看不见。
 
 
 
@@ -154,7 +164,7 @@ host github.com
 
 
 
-综合比较起来，Git 走 SSH 协议且采用一个很好的 SOCKS5服务器的话，会相当顺利，很难遇到各色怪现象。
+综合比较起来，Git 走 SSH 协议且采用一个很好的 SOCKS5 服务器的话，会相当顺利，很难遇到各色怪现象。
 
 
 
