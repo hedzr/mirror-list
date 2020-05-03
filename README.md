@@ -178,12 +178,14 @@ Docker CE 的具体加速办法有很多种，然而各种版本的本质都是�
 
 ```json
 {
-  "insecure-registries" : [
+  "insecure-registries": [
     "registry.mirrors.aliyuncs.com"
   ],
-  "debug" : true,
-  "experimental" : false,
-  "registry-mirrors" : [
+  "debug": true,
+  "experimental": false,
+  "registry-mirrors": [
+    "https://mirror.ccs.tencentyun.com",
+    "https://hub-mirror.c.163.com",
     "https://docker.mirrors.ustc.edu.cn",
     "https://dockerhub.azk8s.cn",
     "https://reg-mirror.qiniu.com",
@@ -195,6 +197,18 @@ Docker CE 的具体加速办法有很多种，然而各种版本的本质都是�
 如果你在这个文件中自定义了其他项目，或者这个文件中已经存在其他定义，请注意保持。
 
 参考：https://docs.docker.com/engine/reference/commandline/dockerd/#daemon-configuration-file
+
+附加说明：
+
+| 镜像加速器                                                   | 镜像加速器地址                       | 其它加速？                                                   |
+| ------------------------------------------------------------ | ------------------------------------ | ------------------------------------------------------------ |
+| [Docker 中国官方镜像](https://docker-cn.com/registry-mirror) | `https://registry.docker-cn.com`     | Docker Hub                                                   |
+| [Azure 中国镜像](https://github.com/Azure/container-service-for-azure-china/blob/master/aks/README.md#22-container-registry-proxy) | `https://dockerhub.azk8s.cn`         | Docker Hub、GCR、Quay                                        |
+| [科大镜像站](https://mirrors.ustc.edu.cn/help/dockerhub.html) | `https://docker.mirrors.ustc.edu.cn` | Docker Hub、[GCR](https://github.com/ustclug/mirrorrequest/issues/91)、[Quay](https://github.com/ustclug/mirrorrequest/issues/135) |
+| [七牛云](https://kirk-enterprise.github.io/hub-docs/#/user-guide/mirror) | `https://reg-mirror.qiniu.com`       | Docker Hub、GCR、Quay                                        |
+| [网易云](https://c.163yun.com/hub)                           | `https://hub-mirror.c.163.com`       | Docker Hub                                                   |
+| [腾讯云](https://cloud.tencent.com/document/product/457/9113) | `https://mirror.ccs.tencentyun.com`  | Docker Hub                                                   |
+
 
 
 
