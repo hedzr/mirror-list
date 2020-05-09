@@ -174,7 +174,7 @@ host github.com
 
 对的。一台国外的VPS，美国、日本、香港都是被推荐的地点，在那里下载或者拖到目标内容，无论是 GitHub 还是 golang 的内容，然后 rsync 到本地，看似很复杂，然而往往可以在10min 之内搞定一切事情，胜似在本机上折腾 proxy 8h。
 
-
+> Nothing serious, only explodes without reason.
 
 
 
