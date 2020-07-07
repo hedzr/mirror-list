@@ -68,10 +68,18 @@
 ###### 如何更好的浏览/阅读这篇文章：
 
 1. 可以寻找chrome插件 Github Markdown Outline Extension，但是我好像是拿来修订了之后才能使用的。
+
 2. 可以寻找chrome插件 HTML5 Outliner
+
 3. 在阅读平台上（仅有首版，不再更新，怪麻烦的）：
    1. <https://juejin.im/post/5da57638f265da5b932e7418>
    2. <https://segmentfault.com/a/1190000020693560>
+   
+4. 在GH Pages：
+
+   <https://hedzr.github.io/programming/tips/mirror-list-snapshot/>
+
+
 
 ## License
 
@@ -883,7 +891,9 @@ sudo sed -i 's%us.archive.ubuntu.com/ubuntu/%mirrors.ubuntu.com/mirrors.txt%' /e
 
 ## Conclusion
 
-CC4
+LICENSE: CC4-BY-NC-SA
+
+
 
 https://github.com/hedzr/mirror-list
 
