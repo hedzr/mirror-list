@@ -19,6 +19,7 @@
     * [Alpine Apk](#alpine-apk)
     * [Android SDK](#android-sdk)
     * [Arch Linux Pacman](#arch-linux-pacman)
+    * [cUrl](#curl)
     * [Flutter &amp; Dart Pub](#flutter--dart-pub)
       * [Flutter 镜像安装帮助](#flutter-%E9%95%9C%E5%83%8F%E5%AE%89%E8%A3%85%E5%B8%AE%E5%8A%A9)
     * [Go Modules](#go-modules)
@@ -105,7 +106,7 @@
 
 对于大型仓库，改走SSH协议进行clone的话，走到正常速度的几率较大，但此时的速度相较于HTTPS而言通常会有所损耗。
 
-#### 修改 hosts 文件
+#### 修改 hosts 文件 (基本失效)
 
 但下面还有一种较为费事的方法，通过修改 hosts 文件来完成提速，无需科学也无需代理加速也无需镜像加速（GitHub是不太可能有镜像的）。具体来说请接下去阅读：
 
@@ -267,6 +268,58 @@ sed -i 's/dl-cdn.alpinelinux.org/mirrors.tuna.tsinghua.edu.cn/g' /etc/apk/reposi
 编辑 /etc/pacman.d/mirrorlist， 在文件的最顶端添加： `Server = https://mirrors.tuna.tsinghua.edu.cn/archlinux/$repo/os/$arch`
 
 更新软件包缓存： `sudo pacman -Syy`
+
+
+
+
+
+### curl
+
+可以给 curl 挂上 socks5 的代理。
+
+在~/.curlrc文件中输入代理地址即可。
+
+```bash
+socks5 = "127.0.0.1:1080"
+```
+
+也可以一次性：
+
+```bash
+curl -x socks5://127.0.0.1:1080 https://www.google.com
+```
+
+如果临时不需要代理使用以下参数：
+
+```bash
+curl --noproxy "*" https://www.google.com
+```
+
+
+
+环境变量 ALL_PROXY, HTTP_PROXY, HTTPS_PROXY 也对 curl 有效
+
+你甚至可以通过 http_proxy 直接使用 socks5 代理：
+
+```bash
+export http_proxy=socks5://127.0.0.1:1080
+export https_proxy=$http_proxy
+```
+
+经验证明，这种方式（通过 http_proxy 来使用 socks5 代理）通常是不好使的，你应该寻求一个转换工具将 socks5 转换到 http 代理，才能在命令行中最好地借用代理的能力。
+
+
+
+环境变量如果区分大小写（如Linux/mac)，则上述语句应该为大写形式重复一次，以免遗漏。
+
+
+
+快速别名：
+
+```bash
+alias setproxy="export http_proxy=socks5://127.0.0.1:1080; export https_proxy=$http_proxy; echo 'HTTP Proxy on';"
+alias unsetproxy="unset http_proxy; unset https_proxy; echo 'HTTP Proxy off';"
+```
 
 
 
