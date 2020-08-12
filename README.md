@@ -466,21 +466,33 @@ allprojects {
 $ gem sources --remove https://rubygems.org
 ```
 
-
-
 ##### 添加国内最新镜像
 
 ```bash
 $ gem sources -a https://gems.ruby-china.com
 ```
 
-
-
 ##### 查看当前镜像
 
 ```bash
 $ gem sources -l
 ```
+
+编辑 `~/.gemrc` 也可以
+
+
+
+#### bundler
+
+对于 Ruby 开发，bundler可能需要如下的操作：
+
+```bash
+bundle config mirror.https://rubygems.org https://mirrors.tuna.tsinghua.edu.cn/rubygems
+```
+
+> 参考清华镜像：https://mirrors.tuna.tsinghua.edu.cn/help/rubygems/
+>
+> 或者：http://bundler.io/v1.16/man/bundle-config.1.html#MIRRORS-OF-GEM-SOURCES
 
 
 
