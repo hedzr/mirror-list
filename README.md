@@ -295,9 +295,11 @@ curl -x socks5://127.0.0.1:1080 https://www.google.com
 curl --noproxy "*" https://www.google.com
 ```
 
-
+#### EnvVar
 
 环境变量 ALL_PROXY, HTTP_PROXY, HTTPS_PROXY 也对 curl 有效
+
+##### Special
 
 你甚至可以通过 http_proxy 直接使用 socks5 代理：
 
@@ -310,18 +312,42 @@ export https_proxy=$http_proxy
 
 
 
-环境变量如果区分大小写（如Linux/mac)，则上述语句应该为大写形式重复一次，以免遗漏。
+> 环境变量如果区分大小写（如Linux/mac)，则上述语句应该为大写形式重复一次，以免遗漏。
 
 
 
-快速别名：
+#### 快速别名
 
 ```bash
 alias setproxy="export http_proxy=socks5://127.0.0.1:1080; export https_proxy=$http_proxy; echo 'HTTP Proxy on';"
 alias unsetproxy="unset http_proxy; unset https_proxy; echo 'HTTP Proxy off';"
 ```
 
+#### 更好的
 
+同时适用于 zsh 和 bash 的脚本片段如下，将其粘贴到 .bashrc/.zshrc 中重新开启终端会话即可享受：
+
+```bash
+proxy_set(){
+  local onoff=${1:-usage}
+  case $onoff in
+  on|ON|1|yes|ok|enable|enabled|open|allow)
+    export http_proxy=http://127.0.0.1:8001
+    export https_proxy=$http_proxy https_proxy=$http_proxy HTTPS_PROXY=$http_proxy
+    echo 'HTTP Proxy on (http)'
+    ;;
+  off|OFF|0|no|bad|disable|disabled|close|disallow|deny)
+    unset all_proxy http_proxy https_proxy HTTP_PROXY HTTPS_PROXY
+    echo 'HTTP Proxy off (http)'
+    ;;
+  usage)
+    echo 'Usage: proxy_set on|off|enable|disable|allow|deny'
+    ;;
+  esac
+}
+```
+
+使用时，直接 `proxy_set on` 或者 `proxy_set off` 即可。
 
 
 
