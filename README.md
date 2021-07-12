@@ -10,6 +10,7 @@
   * [Overview](#overview)
           * [当然，欢迎完善它。](#%E5%BD%93%E7%84%B6%E6%AC%A2%E8%BF%8E%E5%AE%8C%E5%96%84%E5%AE%83)
           * [如何更好的浏览/阅读这篇文章：](#%E5%A6%82%E4%BD%95%E6%9B%B4%E5%A5%BD%E7%9A%84%E6%B5%8F%E8%A7%88%E9%98%85%E8%AF%BB%E8%BF%99%E7%AF%87%E6%96%87%E7%AB%A0)
+  * [Tools](#tools) *proxy_set on|off*
   * [China Mirrors](#china-mirrors)
     * [GitHub Clone](#github-clone)
       * [修改 hosts 文件](#%E4%BF%AE%E6%94%B9-hosts-%E6%96%87%E4%BB%B6)
