@@ -88,13 +88,58 @@
 
 本文的内容，基本上没版权，在公共域。
 
-本文的排版和组织，我拿住版权了，哈哈，MIT，你还是可以用，随便。
-
-少部分的闹骚，如果有的话，没版权，我放弃，你看不见。
+本文的排版和组织，如果有所谓，MIT，你还是可以用，随便。
 
 
 
-## China Mirrors
+## Tools
+
+在 zsh/bash 环境中，你可能需要一个小型工具，它往往需要你略微订正一下，但其主体内容是这样的：
+
+```bash
+# PROXY_LINK='http://127.0.0.1:7890'
+proxy_set(){
+  local onoff=${1:-usage}
+  #local link=${PROXY_LINK:-http://127.0.0.1:8001}
+  local link=${PROXY_LINK:-http://127.0.0.1:7890}
+  case $onoff in
+  on|ON|1|yes|ok|enable|enabled|open|allow)
+    export http_proxy=$link
+    export https_proxy=$http_proxy https_proxy=$http_proxy HTTPS_PROXY=$http_proxy
+    echo 'HTTP Proxy on (http)'
+    ;;
+  off|OFF|0|no|bad|disable|disabled|close|disallow|deny)
+    unset all_proxy http_proxy https_proxy HTTP_PROXY HTTPS_PROXY
+    echo 'HTTP Proxy off (http)'
+    ;;
+  usage)
+    echo 'Usage: proxy_set on|off|enable|disable|allow|deny'
+    ;;
+  esac
+}
+```
+
+将它粘贴到你的 ~/.zshrc 或者 ~/.bashrc 的末尾，然后修改 line 5 中的 HTTP_PROXY URL，或者 uncomment line 0 并设置你的 HTTP_PROXY URL。
+
+重新打开终端窗口即可生效。
+
+如果在终端环境中需要启动 HTTP 代理，则
+
+```bash
+proxy_set on
+```
+
+反之则
+
+```bash
+proxy_set off
+```
+
+这是有备无患的工具。终端中总是有着各种各样的情况，这个工具的作用像 tsock，只不过需要独立运行并启用。
+
+
+
+## China Mainland Mirrors
 
 
 
