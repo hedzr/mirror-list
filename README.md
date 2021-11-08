@@ -755,11 +755,21 @@ $ echo 'export PUB_HOSTED_URL="https://mirrors.tuna.tsinghua.edu.cn/dart-pub/"' 
 
 可以更换镜像：
 
-- 阿里：`yarn config set registry https://registry.npm.taobao.org`
+- 阿里：`yarn config set registry https://registry.npmmirror.com`
 - 华为：`yarn config set registry https://mirrors.huaweicloud.com/repository/npm/`
 - Node-Sass：`npm config set sass_binary_site https://mirrors.huaweicloud.com/node-sass/`
 
 
+
+```bash
+npm config delete registry
+
+yarn --registry=https://registry.company.com/
+
+yarn config get registry
+yarn config delete registry
+yarn config set registry 
+```
 
 
 
