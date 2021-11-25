@@ -949,7 +949,20 @@ rustup update stable
 
 其它的旧指令都可以忘记。
 
+另外，一个“正确”的 `$HOME/.cargo/config` 文件应该如此：
 
+```toml
+[source]
+
+[source.crates-io]
+# registry = "https://github.com/rust-lang/crates.io-index"
+replace-with = 'ustc'
+
+[source.ustc]
+registry = "git://mirrors.ustc.edu.cn/crates.io-index"
+```
+
+不要给出多余的 registry 变量，它可能会是 `Update cargo.io indexes` 挂起的原因。
 
 
 
