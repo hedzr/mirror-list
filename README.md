@@ -923,6 +923,32 @@ export RUSTUP_DIST_SERVER=https://mirrors.tuna.tsinghua.edu.cn/rustup
 
 
 
+#### Fixup
+
+对于上面的镜像站的提示来说，有一定的问题，你有可能遇到这样的问题：
+
+```
+warning: Signature verification failed for 'https://mirrors.tuna.tsinghua.edu.cn/rustup/dist/channel-rust-stable.toml'
+```
+
+这是由于它们提供的方法有微小的问题：你不应该使用 `RUSTUP_DIST_SERVER` 环境变量，而是应该使用 `RUSTUP_UPDATE_ROOT` 变量名。所以正确的环境变量设置应该以下面的示例为准：
+
+```bash
+export CARGO_HOME=$HOME/.cargo
+export RUSTUP_HOME=$HOME/.rustup
+#export RUSTUP_DIST_SERVER=https://mirrors.tuna.tsinghua.edu.cn/rustup
+#export RUSTUP_UPDATE_ROOT=$RUSTUP_DIST_SERVER/rustup
+export RUSTUP_UPDATE_ROOT=https://mirrors.tuna.tsinghua.edu.cn/rustup/rustup
+```
+
+此外，旧的升级方法也有所废弃，现在你要升级 rustc 和 cargo 版本的话，需要如下的命令：
+
+```bash
+rustup update stable
+```
+
+其它的旧指令都可以忘记。
+
 
 
 
