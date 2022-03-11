@@ -233,6 +233,52 @@ host github.com
 
 
 
+### 使用 GitHub 镜像网站
+
+近两年来，即使没有间歇性抽风，全世界也仍然制造了一些 GitHub 的全量镜像网站，它们是有各种各样原因的，一个主要的因素在于 GH 自己泛政治化倾向过于糟糕了，另一方面当然是由于并非只有兔子国才有长城。
+
+所以，如果你并不是在操心怎么 push，仅仅只是为了 pull/fetch/clone 的话，可以使用这些镜像网站来做加速。这个能力对于那些做 DevOps 安装配置工作的人来说是一种福音。
+
+当下，这些镜像网站是值得参考的：
+
+#### gitclone.com
+
+它特别在于不仅仅只针对 github，为了启用它，执行一条命令：
+
+```bash
+git config --global url."https://gitclone.com/".insteadOf https://
+```
+
+或者做精确的限制：
+
+```bash
+git config --global url."https://gitclone.com/github.com/".insteadOf https://github.com/
+```
+
+然后就可以透明地使用它了，你的 clone 命令无需做任何修改：
+
+```bash
+git clone https://github.com/hedzr/cmdr.git
+```
+
+详情请参阅 [官网](https://gitclone.com/docs/feature/gitclone_web)。
+
+#### fastgit.org
+
+fastgit 是针对 GitHub 做全量副本的，启用方式为：
+
+```bash
+git config --global url."https://hub.fastgit.xyz/".insteadOf https://github.com/
+```
+
+参阅：[Home Page | FastGit UK Document](https://doc.fastgit.org/en-gb/)
+
+#### More
+
+此外还有如：https://github.com.cnpmjs.org/
+
+
+
 ### Docker CE
 
 Docker CE 的具体加速办法有很多种，然而各种版本的本质都是一样的，一般来说你需要找到 docker daemon 的配置文件 `/etc/docker/daemon.json`，然后修改它像这样：
