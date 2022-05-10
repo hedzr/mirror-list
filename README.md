@@ -2,61 +2,7 @@
 
 > mirrors-for-coder(s)
 
-
-## Table of Contents
-
-* [各种各样的镜像加速](#%E5%90%84%E7%A7%8D%E5%90%84%E6%A0%B7%E7%9A%84%E9%95%9C%E5%83%8F%E5%8A%A0%E9%80%9F)
-  * [Table of Contents](#table-of-contents)
-  * [Overview](#overview)
-          * [当然，欢迎完善它。](#%E5%BD%93%E7%84%B6%E6%AC%A2%E8%BF%8E%E5%AE%8C%E5%96%84%E5%AE%83)
-          * [如何更好的浏览/阅读这篇文章：](#%E5%A6%82%E4%BD%95%E6%9B%B4%E5%A5%BD%E7%9A%84%E6%B5%8F%E8%A7%88%E9%98%85%E8%AF%BB%E8%BF%99%E7%AF%87%E6%96%87%E7%AB%A0)
-  * [Tools](#tools) *proxy_set on|off*
-  * [China Mirrors](#china-mirrors)
-    * [GitHub Clone](#github-clone)
-      * [修改 hosts 文件](#%E4%BF%AE%E6%94%B9-hosts-%E6%96%87%E4%BB%B6)
-      * [Git SSH协议代理](#git-ssh%E5%8D%8F%E8%AE%AE%E4%BB%A3%E7%90%86)
-      * [Git HTTPS协议代理](#git-https%E5%8D%8F%E8%AE%AE%E4%BB%A3%E7%90%86)
-    * [Docker CE](#docker-ce)
-    * [Alpine Apk](#alpine-apk)
-    * [Android SDK](#android-sdk)
-    * [Arch Linux Pacman](#arch-linux-pacman)
-    * [cUrl](#curl)
-    * [Flutter &amp; Dart Pub](#flutter--dart-pub)
-      * [Flutter 镜像安装帮助](#flutter-%E9%95%9C%E5%83%8F%E5%AE%89%E8%A3%85%E5%B8%AE%E5%8A%A9)
-    * [Go Modules](#go-modules)
-      * [参考](#%E5%8F%82%E8%80%83)
-    * [Gradle](#gradle)
-    * [Gem 和 CocoaPods](#gem-%E5%92%8C-cocoapods)
-      * [替换 Ruby 源](#%E6%9B%BF%E6%8D%A2-ruby-%E6%BA%90)
-        * [移除现有的Ruby镜像](#%E7%A7%BB%E9%99%A4%E7%8E%B0%E6%9C%89%E7%9A%84ruby%E9%95%9C%E5%83%8F)
-        * [添加国内最新镜像](#%E6%B7%BB%E5%8A%A0%E5%9B%BD%E5%86%85%E6%9C%80%E6%96%B0%E9%95%9C%E5%83%8F)
-        * [查看当前镜像](#%E6%9F%A5%E7%9C%8B%E5%BD%93%E5%89%8D%E9%95%9C%E5%83%8F)
-      * [加速 Cocoapods](#%E5%8A%A0%E9%80%9F-cocoapods)
-        * [gitee镜像](#gitee%E9%95%9C%E5%83%8F)
-        * [清华镜像](#%E6%B8%85%E5%8D%8E%E9%95%9C%E5%83%8F)
-        * [你的 xcode 工程中如果有Podfile的话，请修改加入下面的行：](#%E4%BD%A0%E7%9A%84-xcode-%E5%B7%A5%E7%A8%8B%E4%B8%AD%E5%A6%82%E6%9E%9C%E6%9C%89podfile%E7%9A%84%E8%AF%9D%E8%AF%B7%E4%BF%AE%E6%94%B9%E5%8A%A0%E5%85%A5%E4%B8%8B%E9%9D%A2%E7%9A%84%E8%A1%8C)
-    * [Homebrew](#homebrew)
-      * [复原](#%E5%A4%8D%E5%8E%9F)
-      * [Pub 镜像安装帮助](#pub-%E9%95%9C%E5%83%8F%E5%AE%89%E8%A3%85%E5%B8%AE%E5%8A%A9)
-    * [Maven](#maven)
-      * [采用aliyun镜像](#%E9%87%87%E7%94%A8aliyun%E9%95%9C%E5%83%8F)
-    * [Node 和 npm/Yarn](#node-%E5%92%8C-npmyarn)
-    * [Python pip 和 composer](#python-pip-%E5%92%8C-composer)
-      * [Pip](#pip)
-      * [Composer](#composer)
-      * [Sequel](#sequel)
-    * [R CRAN](#r-cran)
-    * [Rust Cargo 和 Rustup](#rust-cargo-%E5%92%8C-rustup)
-    * [Ubuntu Apt Source](#ubuntu-apt-source)
-      * [其他方法](#%E5%85%B6%E4%BB%96%E6%96%B9%E6%B3%95)
-        * [使用 apt\-select](#%E4%BD%BF%E7%94%A8-apt-select)
-        * [使用mirrors CDN](#%E4%BD%BF%E7%94%A8mirrors-cdn)
-    * [Vagrant](#vagrant)
-  * [Conclusion](#conclusion)
-
-<!-- Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc.go) -->
-
-
+> 目录已经没有必要自行生成了，因为 GitHub, Gitee 等都主动提供了 TOC 支持。
 
 ## Overview
 
@@ -1090,6 +1036,28 @@ on the top in your `/etc/apt/sources.list` file should be all that is needed to 
 ```bash
 sudo sed -i 's%us.archive.ubuntu.com/ubuntu/%mirrors.ubuntu.com/mirrors.txt%' /etc/apt/sources.list
 ```
+
+
+
+
+
+### Ubuntu PPA Source
+
+PPA 一般我都是硬来。但是久而久之也就不能忍了，所以它也可以替换国内源的，就干吧。
+
+#### `launchpad.proxy.ustclug.org` 废了
+
+本来 `launchpad.proxy.ustclug.org` 是很不错的镜像，但是已经废了：
+
+```bash
+sudo add-apt-repository ppa:longsleep/golang-backports
+find /etc/apt/sources.list.d/ -type f -iname '*.list' -exec sudo sed -ibak -r 's/ppa.launchpad.net/launchpad.proxy.ustclug.org/' {} \;
+
+sudo apt update
+sudo apt install golang-1.18 golang-go
+```
+
+
 
 
 
