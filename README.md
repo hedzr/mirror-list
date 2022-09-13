@@ -47,26 +47,45 @@
 # PROXY_LINK='http://127.0.0.1:7890'
 proxy_set(){
   local onoff=${1:-usage}
-  #local link=${PROXY_LINK:-http://127.0.0.1:8001}
-  local link=${PROXY_LINK:-http://127.0.0.1:7890}
+  if is_darwin; then
+    local pip=$(ipconfig getifaddr en0 || ipconfig getifaddr en1) 
+  else
+    local pip=$(hostname -I|awk '{print $1}')
+  fi
+  local link=${PROXY_LINK:-http://$pip:7890}
+  proxy_print_usage() {
+    [ "$http_proxy" != "" ] && echo "http_proxy=$http_proxy"
+    [ "$HTTP_PROXY" != "" ] && echo "HTTP_PROXY=$HTTP_PROXY"
+    [ "$https_proxy" != "" ] && echo "https_proxy=$https_proxy"
+    [ "$HTTPS_PROXY" != "" ] && echo "HTTPS_PROXY=$HTTPS_PROXY"
+    [ "$all_proxy" != "" ] && echo "https_proxy=$https_proxy"
+    [ "$ALL_PROXY" != "" ] && echo "HTTPS_PROXY=$HTTPS_PROXY"
+  }
   case $onoff in
   on|ON|1|yes|ok|enable|enabled|open|allow)
     export http_proxy=$link
-    export https_proxy=$http_proxy https_proxy=$http_proxy HTTPS_PROXY=$http_proxy
+    export https_proxy=$http_proxy HTTPS_PROXY=$http_proxy HTTP_PROXY=$http_proxy all_proxy=$http_proxy ALL_PROXY=$http_proxy
     echo 'HTTP Proxy on (http)'
     ;;
   off|OFF|0|no|bad|disable|disabled|close|disallow|deny)
-    unset all_proxy http_proxy https_proxy HTTP_PROXY HTTPS_PROXY
+    unset all_proxy ALL_PROXY http_proxy https_proxy HTTP_PROXY HTTPS_PROXY
     echo 'HTTP Proxy off (http)'
     ;;
+  status|st)
+    proxy_print_usage
+    ;;
   usage)
-    echo 'Usage: proxy_set on|off|enable|disable|allow|deny'
+    echo 'Usage: proxy_set on|off|enable|disable|allow|deny|status'
+    proxy_print_usage
+    ;;
+  *)
+    proxy_print_usage
     ;;
   esac
 }
 ```
 
-将它粘贴到你的 ~/.zshrc 或者 ~/.bashrc 的末尾，然后修改 line 5 中的 HTTP_PROXY URL，或者 uncomment line 0 并设置你的 HTTP_PROXY URL。
+将它粘贴到你的 ~/.zshrc 或者 ~/.bashrc 的末尾就可以了。
 
 重新打开终端窗口即可生效。
 
@@ -83,6 +102,14 @@ proxy_set off
 ```
 
 这是有备无患的工具。终端中总是有着各种各样的情况，这个工具的作用像 tsock，只不过需要独立运行并启用。
+
+只想看看状态的话：
+
+```bash
+proxy_set
+```
+
+这将会显示出当前的 HTTP_PROXY 值，以及 proxy_set 自己的使用方法。
 
 
 
@@ -176,6 +203,8 @@ host github.com
 对的。一台国外的VPS，美国、日本、香港都是被推荐的地点，在那里下载或者拖到目标内容，无论是 GitHub 还是 golang 的内容，然后 rsync 到本地，看似很复杂，然而往往可以在10min 之内搞定一切事情，胜似在本机上折腾 proxy 8h。
 
 > Nothing serious, only explodes without reason.
+
+
 
 
 
