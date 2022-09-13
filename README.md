@@ -58,8 +58,8 @@ proxy_set(){
     [ "$HTTP_PROXY" != "" ] && echo "HTTP_PROXY=$HTTP_PROXY"
     [ "$https_proxy" != "" ] && echo "https_proxy=$https_proxy"
     [ "$HTTPS_PROXY" != "" ] && echo "HTTPS_PROXY=$HTTPS_PROXY"
-    [ "$all_proxy" != "" ] && echo "https_proxy=$https_proxy"
-    [ "$ALL_PROXY" != "" ] && echo "HTTPS_PROXY=$HTTPS_PROXY"
+    [ "$all_proxy" != "" ] && echo "all_proxy=$all_proxy"
+    [ "$ALL_PROXY" != "" ] && echo "ALL_PROXY=$ALL_PROXY"
   }
   case $onoff in
   on|ON|1|yes|ok|enable|enabled|open|allow)
