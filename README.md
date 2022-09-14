@@ -41,6 +41,8 @@
 
 ## Tools
 
+### `proxy_set`
+
 在 zsh/bash 环境中，你可能需要一个小型工具，其主体内容是这样的（有时候也许你需要少少的订正）：
 
 ```bash
@@ -150,6 +152,28 @@ proxy_set
 > ![image-20220914105628812](_assets/README/image-20220914105628812.png)
 >
 > 在提示符的右侧显示了当前的代理状态以及 shell 嵌套层级。
+
+### `is_darwin`
+
+`is_darwin` 是来自于我的 [bash.sh](https://github.com/hedzr/bash.sh) 中的一个小型工具函数。其实现很简短：
+
+```bash
+is_darwin() { [[ $OSTYPE == darwin* ]]; }
+```
+
+所以你可以按需采用。
+
+对于希望集成更多类似小工具的朋友，请查看我们的 [bash.sh](https://github.com/hedzr/bash.sh) ，它提供了编写完整的 shell 脚本/ devops 工具脚本的最佳起点 `bash.sh`，以及：
+
+- 一个额外的、可以被直接引入到 `.zshrc/.bashrc` 的等价物 `bash.config`：
+
+  ```bash
+  [ -f $HOME/.bash.sh/bash.config ] && source $HOME/.bash.sh/bash.config
+  ```
+
+  上面的句子可以添加到你的 zshrc 中。
+
+- 一个轻型版本：`bash-lite.sh`。它带有更少的函数集合，算是 `bash.sh/bash.config` 的轻量级版本。
 
 
 
