@@ -73,7 +73,7 @@ proxy_set() {
     # but its can be simplify to these following:
     # proxy_set_on && eval "$@" && proxy_set_off
     bash -c "
-    set -xe
+    set -e
     proxy_set_off() {
       unset all_proxy ALL_PROXY http_proxy https_proxy HTTP_PROXY HTTPS_PROXY
     }
