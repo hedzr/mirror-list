@@ -41,11 +41,11 @@
 
 ## Tools
 
-在 zsh/bash 环境中，你可能需要一个小型工具，它往往需要你略微订正一下，但其主体内容是这样的：
+在 zsh/bash 环境中，你可能需要一个小型工具，其主体内容是这样的（有时候也许你需要少少的订正）：
 
 ```bash
 # PROXY_LINK='http://127.0.0.1:7890'
-proxy_set(){
+proxy_set() {
   local onoff=${1:-usage}
   if is_darwin; then
     local pip=$(ipconfig getifaddr en0 || ipconfig getifaddr en1) 
@@ -53,7 +53,7 @@ proxy_set(){
     local pip=$(hostname -I|awk '{print $1}')
   fi
   local link=${PROXY_LINK:-http://$pip:7890}
-  proxy_print_usage() {
+  proxy_print_status() {
     [ "$http_proxy" != "" ] && echo "http_proxy=$http_proxy"
     [ "$HTTP_PROXY" != "" ] && echo "HTTP_PROXY=$HTTP_PROXY"
     [ "$https_proxy" != "" ] && echo "https_proxy=$https_proxy"
@@ -61,25 +61,51 @@ proxy_set(){
     [ "$all_proxy" != "" ] && echo "all_proxy=$all_proxy"
     [ "$ALL_PROXY" != "" ] && echo "ALL_PROXY=$ALL_PROXY"
   }
-  case $onoff in
-  on|ON|1|yes|ok|enable|enabled|open|allow)
+  proxy_set_off() {
+    unset all_proxy ALL_PROXY http_proxy https_proxy HTTP_PROXY HTTPS_PROXY
+  }
+  proxy_set_on() {
     export http_proxy=$link
     export https_proxy=$http_proxy HTTPS_PROXY=$http_proxy HTTP_PROXY=$http_proxy all_proxy=$http_proxy ALL_PROXY=$http_proxy
+  }
+  proxy_set_invoke(){
+    # for better compatibilities under macOS we assumed a child shell for cleanup the envvars.
+    # but its can be simplify to these following:
+    # proxy_set_on && eval "$@" && proxy_set_off
+    bash -c "
+    set -xe
+    proxy_set_off() {
+      unset all_proxy ALL_PROXY http_proxy https_proxy HTTP_PROXY HTTPS_PROXY
+    }
+    proxy_set_on() {
+      export http_proxy=$link
+      export https_proxy=\$http_proxy HTTPS_PROXY=\$http_proxy HTTP_PROXY=\$http_proxy all_proxy=\$http_proxy ALL_PROXY=\$http_proxy
+    }
+    trap 'proxy_set_off' EXIT ERR
+    proxy_set_on
+    $*
+    "
+  }
+  case $onoff in
+  on|ON|1|yes|ok|enable|enabled|open|allow)
+    proxy_set_on
     echo 'HTTP Proxy on (http)'
     ;;
   off|OFF|0|no|bad|disable|disabled|close|disallow|deny)
-    unset all_proxy ALL_PROXY http_proxy https_proxy HTTP_PROXY HTTPS_PROXY
+    proxy_set_off
     echo 'HTTP Proxy off (http)'
     ;;
   status|st)
-    proxy_print_usage
+    proxy_print_status
     ;;
-  usage)
+  usage|help|info)
     echo 'Usage: proxy_set on|off|enable|disable|allow|deny|status'
-    proxy_print_usage
+    echo 'Or run proxy_set just like "tsock": proxy_set curl -iL https://google.com/'
+    echo 'Type "proxy_set help" for more information.'
+    proxy_print_status
     ;;
   *)
-    proxy_print_usage
+    proxy_set_invoke "$@"
     ;;
   esac
 }
@@ -103,13 +129,21 @@ proxy_set off
 
 这是有备无患的工具。终端中总是有着各种各样的情况，这个工具的作用像 tsock，只不过需要独立运行并启用。
 
+`proxy_set help` 可以查看 proxy_set 的使用方法。
+
 只想看看状态的话：
 
 ```bash
 proxy_set
 ```
 
-这将会显示出当前的 HTTP_PROXY 值，以及 proxy_set 自己的使用方法。
+这将会显示出当前的 HTTP_PROXY 值。
+
+> 如果使用 Zsh+Powerlevel10K 等环境的话，你可以借助于 [定制额外的 Modifier（segment）小组件](https://github.com/romkatv/powerlevel10k#batteries-included) 来帮助解决状态问题。一个可能的定制环境是这样的：
+>
+> ![image-20220914105628812](_assets/README/image-20220914105628812.png)
+>
+> 在提示符的右侧显示了当前的代理状态以及 shell 嵌套层级。
 
 
 
