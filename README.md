@@ -312,6 +312,12 @@ git config --global url."https://hub.fastgit.xyz/".insteadOf https://github.com/
 
 参阅：[Home Page | FastGit UK Document](https://doc.fastgit.org/en-gb/)
 
+>官方显式声明了仅适用于小于 2GB 的 repo
+
+> 1. 请查阅 [https://status.fastgit.org (opens new window)](https://status.fastgit.org/)以及 [https://github.com/FastGitORG/uptime (opens new window)](https://github.com/FastGitORG/uptime)以确认 FastGit 是否正面临潜在的服务不可用可能性
+
+
+
 #### More
 
 此外还有如：https://github.com.cnpmjs.org/
