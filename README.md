@@ -15,7 +15,7 @@
 
 ###### 如何更好的浏览/阅读这篇文章：
 
-1. 可以寻找chrome插件 Github Markdown Outline Extension，但是我好像是拿来修订了之后才能使用的。
+1. 可以寻找 chrome 插件 Github Markdown Outline Extension，但是我好像是拿来修订了之后才能使用的。
 
 2. 可以寻找chrome插件 HTML5 Outliner
 
@@ -23,7 +23,7 @@
    1. <https://juejin.im/post/5da57638f265da5b932e7418>
    2. <https://segmentfault.com/a/1190000020693560>
    
-4. 在GH Pages：
+4. 在GH Pages（未必会时时同步更新）：
 
    <https://hedzr.github.io/programming/tips/mirror-list-snapshot/>
 
@@ -41,9 +41,43 @@
 
 ## Tools
 
+### `ports`
+
+ports 是一个查看本地服务端口表的工具。你可以这么使用它：
+
+```bash
+ports   # 列出全部
+ports | grep -vE 'ssh|mysql'    # 列出全部，但不必罗列 ssh 和 mysql
+ports 3306 # 看看 mysql 是不是在
+```
+
+它的源码实现如下，加入到你的 .bashrc 或者 .zshrc 中就好（同时适用于 linux/macOS zsh/bash 环境）：
+
+```bash
+ports() {
+	local SUDO=${SUDO:-}
+	[ "$(id -u)" = "0" ] && SUDO=
+	if [[ $# -eq 0 ]]; then
+		eval $SUDO lsof -Pni | grep -E "LISTEN|UDP"
+	else
+		local p='' i
+		for i in "$@"; do
+			if [[ "$i" -eq "$i" ]]; then
+				p="$p -i :$i"
+			else
+				p="$p -i $i"
+			fi
+		done
+		eval $SUDO lsof -Pn $p
+	fi
+}
+```
+
+基本上，这是一个很常用的工具，你没有必要使用 netstat 或者 iotop 或者 TUI / GUI 工具来查看打开的端口表。
+
 ### `proxy_set`
 
-在 zsh/bash 环境中，你可能需要一个小型工具，其主体内容是这样的（有时候也许你需要少少的订正）：
+在 zsh/bash 环境中，你可能需要一个小型工具，其主体内容是这样的：
 
 ```bash
 # PROXY_LINK='http://127.0.0.1:7890'
