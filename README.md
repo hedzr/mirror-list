@@ -55,21 +55,21 @@ ports 3306 # 看看 mysql 是不是在
 
 ```bash
 ports() {
-	local SUDO=${SUDO:-}
-	[ "$(id -u)" = "0" ] && SUDO=
-	if [[ $# -eq 0 ]]; then
-		eval $SUDO lsof -Pni | grep -E "LISTEN|UDP"
-	else
-		local p='' i
-		for i in "$@"; do
-			if [[ "$i" -eq "$i" ]]; then
-				p="$p -i :$i"
-			else
-				p="$p -i $i"
-			fi
-		done
-		eval $SUDO lsof -Pn $p
-	fi
+  local SUDO=${SUDO:-sudo}
+  [ "$(id -u)" = "0" ] && SUDO=
+  if [[ $# -eq 0 ]]; then
+    eval $SUDO lsof -Pni | grep -E "LISTEN|UDP"
+  else
+    local p='' i
+    for i in "$@"; do
+      if [[ "$i" -eq "$i" ]]; then
+        p="$p -i :$i"
+      else
+        p="$p -i $i"
+      fi
+    done
+    eval $SUDO lsof -Pn $p
+  fi
 }
 ```
 
