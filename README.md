@@ -314,6 +314,14 @@ host github.com
 
 当下，这些镜像网站是值得参考的：
 
+#### [hub.nuaa.cf](https://hub.nuaa.cf )
+
+nuaa.cf 比较新，其他几个例如 gitclone，fastgit 现在也爱抽风了。
+
+但是 nuaa.cf 比较复杂，不那么单纯，自行探索吧。
+
+类似的镜像网站相当多但却基本都不怎么靠谱，偶尔应付一下或者行。
+
 #### gitclone.com
 
 它特别在于不仅仅只针对 github，为了启用它，执行一条命令：
