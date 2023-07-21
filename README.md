@@ -806,6 +806,125 @@ $ echo 'export PUB_HOSTED_URL="https://mirrors.tuna.tsinghua.edu.cn/dart-pub/"' 
 
 
 
+### Mageia
+
+Mageia Linux 是基于 Mandriva Linux 改造而来的发行版，它的 KDE 界面做的比较细腻，完全不像多数 KDE 发行版如同上世纪的 Window XP 那般的粗糙。
+
+Mageia 目前在版本 8，而 9 的 Beta 版出了，也许快要出正式版了。
+
+以版本 8 为例，你可以为其添加南京大学的镜像源。
+
+由于从 Mageia 6 开始，Mageia 的软件仓库同时兼容 urpmi 和 dnf，两个包管理器默认情况下均被预装。目前看来 urpmi 是它的默认包管理器，例如 Mageia 控制中心就是专门调用 urpmi 的，所以配置 urpmi 的源是首要任务。相应的，dnf 的配置次之。
+
+
+
+#### List software sources
+
+```bash
+# show the interpreted configuration from /etc/urpmi/urpmi.cfg 
+urpmq --dump
+
+urpmq --list-media active --list-url
+
+urpmq --list-media
+```
+
+
+
+#### 添加源
+
+##### urpmi 配置方法
+
+移除所有已添加的软件仓库（sudo 似乎是没有被预装的，可以在稍后再安装使用）：
+
+```
+su
+urpmi.removemedia -a
+
+# or
+sudo urpmi.removemedia -a
+```
+
+> 但是实际上我们认为你不必移除系统默认的官方源。
+>
+> 此外，建议做好备份：
+>
+> ```bash
+> sudo cp /etc/urpmi/urpmi.cfg{,.save.1}
+> ```
+
+添加中科大的软件源，以 Mageia 6，x86_64 架构为例：
+
+```
+su
+urpmi.addmedia --distrib https://mirrors.ustc.edu.cn/mageia/distrib/8/x86_64
+
+# or:
+sudo urpmi.addmedia --distrib https://mirror.nju.edu.cn/mageia/distrib/8/x86_64
+```
+
+刷新缓存：
+
+```
+su
+urpmi.update -a
+
+# or
+sudo urpmi.update -a
+```
+
+##### dnf 配置方法
+
+dnf 在默认情况下已经被预装，如果你发现并没有，可以使用 urpmi 安装：
+
+```
+su
+urpmi mageia-repos dnf
+
+# or
+sudo urpmi mageia-repos dnf
+```
+
+接下来编辑 `/etc/yum.repos.d/` 中的文件：
+
+将所有文件中的：
+
+```
+#baseurl=https://mirrors.kernel.org/mageia/
+```
+
+替换为：
+
+```
+baseurl=https://mirrors.ustc.edu.cn/mageia/
+```
+
+> 注意应该事先做好备份：
+>
+> ```bash
+> cd /etc/yum.repos.d
+> for i in *.repo; do sudo cp $i{,.save.1}; done
+> ```
+
+这可以通过如下命令达成：
+
+```bash
+cd /etc/yum.repos.d
+sudo sed -i.bak -r 's,#baseurl=https://mirrors.kernel.org/mageia/,baseurl=https://mirror.nju.edu.cn/mageia/,ig' *.repo
+```
+
+最后刷新一下：
+
+```bash
+sudo dnf makecache
+```
+
+
+
+
+
+
+
 
 
 ### Maven
@@ -1216,7 +1335,7 @@ PPA 一般我都是硬来。但是久而久之也就不能忍了，所以它也�
 
 ```bash
 sudo add-apt-repository ppa:longsleep/golang-backports
-find /etc/apt/sources.list.d/ -type f -iname '*.list' -exec sudo sed -ibak -r 's/ppa.launchpad.net/launchpad.proxy.ustclug.org/' {} \;
+find /etc/apt/sources.list.d/ -type f -iname '*.list' -exec sudo sed -i.bak -r 's/ppa.launchpad.net/launchpad.proxy.ustclug.org/' {} \;
 
 sudo apt update
 sudo apt install golang-1.18 golang-go
