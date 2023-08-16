@@ -1284,6 +1284,54 @@ https://askubuntu.com/questions/39922/how-do-you-select-the-fastest-mirror-from-
 
 
 
+#### 推荐的方法
+
+上面的两个方法各有各的道理，惟其手续驳杂，颇伤脑筋。所以这里提供一份我的脚本版本，可以让你减轻负担：
+
+```bash
+mirror=mirrors.ustc.edu.cn
+SUDO=sudo
+
+cd /etc/apt
+[ -f sources.list.orig ] || $SUDO cp sources.list{,.orig}
+$SUDO sed -i -r "s/us.archive.ubuntu.com/$mirror/" /etc/apt/sources.list
+$SUDO sed -i -r "s/cn.archive.ubuntu.com/$mirror/" /etc/apt/sources.list
+# $SUDO sed -i -r "s/archive.ubuntu.com/$mirror/" /etc/apt/sources.list
+$SUDO sed -i -r "s#http://mirror#https://mirror#" /etc/apt/sources.list
+$SUDO apt update
+```
+
+注意默认时上述脚本不会替换 archive.ubuntu.com，通常这个服务器速度比较正常。但如果你的实际体验感觉到太慢的话，那么取消脚本里注释掉的那一行，然后 sudo apt update 并且重新尝试。
+
+> 为了逻辑清晰，脚本没有优化。
+>
+> 但是你可以将 line 6-8 的 sed 语句优化为单条命令：
+>
+> `````bash
+> $SUDO sed -i -r "s/.*archive.ubuntu.com/$mirror/" /etc/apt/sources.list
+> `````
+
+
+
+#### 免密码 sudo
+
+让你的账户 sudo 时不必输入密码，可以这么做：
+
+```bash
+sudo groupadd -g 201 power
+sudo usermod -aG power $USER
+echo "%power   ALL=(ALL) NOPASSWD: ALL" | sudo tee /etc/sudoers.d/power
+sudo chmod 440 /etc/sudoers.d/power
+```
+
+你可以翻阅我以前的 post： [Ubuntu Server 安装提要](https://hedzr.com/devops/linux/ubuntu-20.04-setup-essentials#%E5%90%AF%E7%94%A8%E5%85%8D%E5%AF%86-sudo)。那里对这方面讲述的仔细一点。 
+
+
+
+
+
+
+
 ##### 使用 apt-select
 
 可以用 `pip` 安装它：
