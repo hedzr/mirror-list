@@ -9,23 +9,19 @@
 
 这里做一个集中，尽管以前都是遇到时立即搜索，但是集中一下之后，看起来也很壮观的。
 
-###### 当然，欢迎完善它。
+##### 当然，欢迎完善它：
 
 - https://github.com/hedzr/mirror-list
 
-###### 如何更好的浏览/阅读这篇文章：
+##### 如何更好的浏览/阅读这篇文章：
 
 1. 可以寻找 chrome 插件 Github Markdown Outline Extension，但是我好像是拿来修订了之后才能使用的。
-
 2. 可以寻找chrome插件 HTML5 Outliner
+3. 下载、拉取到本机并以 Typora 打开浏览
 
-3. 在阅读平台上（仅有首版，不再更新，怪麻烦的）：
-   1. <https://juejin.im/post/5da57638f265da5b932e7418>
-   2. <https://segmentfault.com/a/1190000020693560>
-   
-4. 在GH Pages（未必会时时同步更新）：
+##### 增加了一个关于 xtom.help 的附录
 
-   <https://hedzr.github.io/programming/tips/mirror-list-snapshot/>
+详见：[附录一](#附录一)
 
 
 
@@ -208,6 +204,10 @@ is_darwin() { [[ $OSTYPE == darwin* ]]; }
   上面的句子可以添加到你的 zshrc 中。
 
 - 一个轻型版本：`bash-lite.sh`。它带有更少的函数集合，算是 `bash.sh/bash.config` 的轻量级版本。
+
+
+
+
 
 
 
@@ -1049,6 +1049,69 @@ yarn config set registry
 
 
 
+### openSUSE 软件源
+
+正常情况下，openSUSE 内置了速度测试（[MirrorBrain](https://zh.opensuse.org/MirrorBrain) 技术）以便自动选择最佳的镜像站点来下载软件包索引、以及在安装时下载软件包本身。
+
+但这个技术依赖于你首先要能访问到 openSUSE 位于德国的根索引。
+
+通常，大陆用户会觉得满意。
+
+但偶尔也会发生抖动现象。此时可以考虑采用镜像源来帮助加速获取元数据（通常至少包含了镜像源站点列表）获取。
+
+> 参照：https://help.mirrors.cernet.edu.cn/opensuse/
+
+#### openSUSE Leap 15.2 或更新版本使用方法
+
+禁用官方软件源
+
+```bash
+sudo zypper mr -da
+```
+
+添加镜像源
+
+```bash
+sudo zypper ar -cfg 'https://mirrors.cernet.edu.cn/opensuse/distribution/leap/$releasever/repo/oss/' mirror-oss
+sudo zypper ar -cfg 'https://mirrors.cernet.edu.cn/opensuse/distribution/leap/$releasever/repo/non-oss/' mirror-non-oss
+sudo zypper ar -cfg 'https://mirrors.cernet.edu.cn/opensuse/update/leap/$releasever/oss/' mirror-update
+sudo zypper ar -cfg 'https://mirrors.cernet.edu.cn/opensuse/update/leap/$releasever/non-oss/' mirror-update-non-oss
+```
+
+Leap 15.3 用户还需添加 sle 和 backports 源
+
+```bash
+sudo zypper ar -cfg 'https://mirrors.cernet.edu.cn/opensuse/update/leap/$releasever/sle/' mirror-sle-update
+sudo zypper ar -cfg 'https://mirrors.cernet.edu.cn/opensuse/update/leap/$releasever/backports/' mirror-backports-update
+```
+
+Leap 15.3 注：若在安装时**没有**启用在线软件源，sle 源和 backports 源将在系统首次更新后引入，请确保系统在更新后仅启用了**六个**所需软件源。可使用 `zypper lr` 检查软件源状态，并使用 `zypper mr -d` 禁用多余的软件源。
+
+#### openSUSE Tumbleweed 使用方法
+
+禁用官方软件源
+
+```bash
+sudo zypper mr -da
+```
+
+添加镜像源
+
+```bash
+sudo zypper ar -cfg 'https://mirrors.cernet.edu.cn/opensuse/tumbleweed/repo/oss/' mirror-oss
+sudo zypper ar -cfg 'https://mirrors.cernet.edu.cn/opensuse/tumbleweed/repo/non-oss/' mirror-non-oss
+```
+
+刷新软件源
+
+```bash
+sudo zypper ref
+```
+
+Tumbleweed 注：Tumbleweed 安装后默认会启用 oss, non-oss, update, 3 个官方软件源， 其中 oss 及 non-oss 源用于发布 Tumbleweed 的每日构建快照，快照中已包含系统所需的全部软件包及更新。 update 源仅用于推送临时安全补丁，如当日快照已发布但仍有临时安全补丁时，会首先推送至 update 源，并在次日合入下一版快照。 由于 update 源存在较强的时效性，上游镜像并未同步 update 源，镜像源亦无法提供该源的镜像。 禁用 update 源并不会使系统缺失任何功能或安全更新，仅会导致极少数更新晚些推送，如有需求可以重新启用官方 update 源。
+
+#### 附注, About xtom.help
+
 
 
 
@@ -1418,6 +1481,18 @@ sudo apt install golang-1.18 golang-go
 - 总的来说，没有什么有效的镜像，只能想各种办法去手工下载box，然后再导入。
 
 
+
+### 附录一
+
+##### 关于 xtom.help
+
+[mirrorz](https://github.com/mirrorz-org) 致力于提供 Linux 发行版的镜像源方面的工作，它们提供很好的相关文档以及 CDN 服务以便加速相应镜像源的访问、拉取行为。
+
+所以我在 mirror-list 中列出的和镜像加速相关的内容，很多在 mirrorz 的对应网站 [xtom.help](https://xtom.help/) 都能找到以 mirrorz 身份提供的解决方案。它们的问题在于 mirrorz 也会受到干扰，所以采用 mirrorz 提供的 CDN 是由你自己来决定的。
+
+但在此基础上，cernet 对 mirrorz 提供了镜像。
+
+所以你也可以访问 [help.mirrors.cernet.edu.cn](https://help.mirrors.cernet.edu.cn/) 来得到一组更大陆的镜像源，不同于 mirrorz 直接原生地提供 CDN 但却常受到干扰，cernet 给出的大陆镜像源基本上都是我们所熟知的那些教育网镜像站，在 [help.mirrors.cernet.edu.cn](https://help.mirrors.cernet.edu.cn/) 上它们被整合到一处了而已。所以好处是你不一定需要去清华、中科大、CQU 等大学的开源软件镜像站具体检索，直接在 [help.mirrors.cernet.edu.cn](https://help.mirrors.cernet.edu.cn/) 就能取用。
 
 
 
