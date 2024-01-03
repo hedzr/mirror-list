@@ -207,6 +207,73 @@ is_darwin() { [[ $OSTYPE == darwin* ]]; }
 
 
 
+### `git-clone`
+
+比较频繁地 clone github repos 的时候，这个工具脚本可能会令你 happy：
+
+```bash
+is_git_clean() { git diff-index --quiet $* HEAD -- 2>/dev/null; }
+is_git_dirty() { is_git_clean && return -1 || return 0; }
+git_clone() {
+	# git-clone will pull the repo into 'user.repo/', for example:
+	#   git-clone git@github.com:hedzr/cmdr.git
+	#   git-clone https://github.com/hedzr/cmdr.git
+	#   will pull hedzr/cmdr into 'hedzr.cmdr/' directory.
+	local Repo="${1:-hedzr/cmdr}"
+	local Sep='/'
+	local Prefix='${GIT_PREFIX:-https://}'
+	local Host="${GIT_HOST:-github.com}"
+	[[ $Repo =~ https://* ]] && Repo="${Repo//https:\/\//}" && Prefix='git@'
+	[[ $Repo =~ github.com/* ]] && Repo="${Repo//github.com\//}" && Prefix='git@'
+	[[ $Repo =~ github.com:* ]] && Repo="${Repo//github.com:/}" && Prefix='git@'
+	Repo="${Repo#git@}"
+	Repo="${Repo%.git}"
+	Dir="${Repo//\//.}"
+	# Repo="${Repo#https://github.com/}"
+	# Repo="${Repo#git@github.com:}"
+	# Repo="${Repo%.git}"
+	[[ $Prefix == 'git@' ]] && Sep=':'
+	local Url="${Prefix}${Host}${Sep}${Repo}.git"
+	# tip "Url: $Url"
+	dbg "cloning from $Url ..." && git clone --depth=1 -q "$Url" "$Dir" && dbg "git clone $Url DONE."
+}
+alias git-clone=git_clone
+```
+
+脚本同时适合 bash 和 zsh，直接复制到 `.bashrc` 或 `.zshrc` 即可工作。
+
+用法是：
+
+```bash
+$ git-clone github.com/hedzr/mirrot-list
+$ git-clone https://github.com/hedzr/mirrot-list
+$ git-clone https://github.com/hedzr/mirrot-list.git
+$ git-clone git@github.com:hedzr/mirrot-list
+$ git-clone git@github.com:hedzr/mirrot-list.git
+```
+
+主打一个容错度高，妈妈说再也不用小心翼翼点 Code 按钮然后点 Copy 按钮了。
+
+注意事项：
+
+你必须已经配置好了本机的 git ssh 协议，因为我们内部自动将一切能识别的 URI 转换为 `git@github.com:hedzr/mirrot-list.git` 然后发出 git clone 指令。
+
+其次，自动 clone 为 hedzr.mirror-list 这样的子目录，要加以注意。
+
+如果不满，自己改改也不苦难。
+
+git-clone 随 [hedzr/bash.sh](https://github.com/hedzr/bash.sh) 一起提供。
+
+### dbg, tip & err
+
+```bash
+dbg() { ((DEBUG)) && printf ">>> \e[0;38;2;133;133;133m$@\e[0m\n" || :; }
+tip() { printf "\e[0;38;2;133;133;133m>>> $@\e[0m\n"; }
+err() { printf "\e[0;33;1;133;133;133m>>> $@\e[0m\n" 1>&2; }
+```
+
+
+
 
 
 
@@ -302,7 +369,9 @@ host github.com
 
 > Nothing serious, only explodes without reason.
 
+#### Git-clone 脚本
 
+为了帮助生活充满美好，提供我的小工具脚本 git-clone，在本文开头的 Tools 部分已经提供：[git-clone](#git-clone)
 
 
 
