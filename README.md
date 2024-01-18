@@ -256,7 +256,7 @@ $ git-clone git@github.com:hedzr/mirrot-list.git
 
 注意事项：
 
-你必须已经配置好了本机的 git ssh 协议，因为我们内部自动将一切能识别的 URI 转换为 `git@github.com:hedzr/mirrot-list.git` 然后发出 git clone 指令。
+你必须已经配置好了本机的 git ssh 协议，因为我们内部自动将一切能识别的 URI 转换为 `git@github.com:hedzr/mirror-list.git` 样式、然后发出 git clone 指令。
 
 其次，自动 clone 为 hedzr.mirror-list 这样的子目录，要加以注意。
 
