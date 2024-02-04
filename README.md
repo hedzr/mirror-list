@@ -264,6 +264,18 @@ $ git-clone git@github.com:hedzr/mirrot-list.git
 
 git-clone 随 [hedzr/bash.sh](https://github.com/hedzr/bash.sh) 一起提供。
 
+> 由于这个 tool 是当初为了 clone 超大型 repo 而顺便制作的，所以它保留了 `--depth=1` 来 clone 最少的内容，更多的历史 commits，branches，tags 等等都不会 fetch，所以你的本地工作目录将会只有一个 commit 可见，也就是 master 分支上的最新的 HEAD 提交。
+>
+> 为了全量拉回更多历史，需要进入 repo 的根目录执行：
+>
+> ```bash
+> git fetch --unshallow
+> ```
+>
+> 或者，如果你总是想全量 fetch，在使用 git-clone 脚本的时候编辑一下，去掉 `--depth=1` 这个参数好了。
+>
+> 一切取决于你自己。
+
 ### dbg, tip & err
 
 ```bash
