@@ -71,7 +71,7 @@ ports() {
 
 基本上，这是一个很常用的工具，你没有必要使用 netstat 或者 iotop 或者 TUI / GUI 工具来查看打开的端口表。
 
-### `proxy_set`
+### `proxy-set`
 
 在 zsh/bash 环境中，你可能需要一个小型工具，其主体内容是这样的：
 
@@ -141,6 +141,7 @@ proxy_set() {
     ;;
   esac
 }
+alias proxy-set=proxy_set
 ```
 
 将它粘贴到你的 ~/.zshrc 或者 ~/.bashrc 的末尾就可以了。
@@ -150,29 +151,29 @@ proxy_set() {
 如果在终端环境中需要启动 HTTP 代理，则
 
 ```bash
-proxy_set on
+proxy-set on
 ```
 
 反之则
 
 ```bash
-proxy_set off
+proxy-set off
 ```
 
 这是有备无患的工具。终端中总是有着各种各样的情况，这个工具的作用像 tsock，只不过需要独立运行并启用。
 
-如果你想像使用 tsock 那样使用 proxy_set，现在可以这样：
+如果你想像使用 tsock 那样使用 proxy-set，现在可以这样：
 
 ```bash
-proxy_set curl -iL https://google.com/
+proxy-set curl -iL https://google.com/
 ```
 
-`proxy_set help` 可以查看 proxy_set 的使用方法。
+`proxy-set help` 可以查看 proxy_set 的使用方法。
 
 只想看看状态的话：
 
 ```bash
-proxy_set
+proxy-set
 ```
 
 这将会显示出当前的 HTTP_PROXY 值。
