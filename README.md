@@ -1,13 +1,9 @@
 # 各种各样的镜像加速
 
-> mirrors-for-coder(s)
-
-> 目录已经没有必要自行生成了，因为 GitHub, Gitee 等都主动提供了 TOC 支持。
-
 ## Overview
 
 
-这里做一个集中，尽管以前都是遇到时立即搜索，但是集中一下之后，看起来也很壮观的。
+这里做一个集中，尽管以前都是遇到时立即搜索，但是集中一下之后，看起来也很壮观。
 
 ##### 当然，欢迎完善它：
 
@@ -246,6 +242,7 @@ alias git-clone=git_clone
 用法是：
 
 ```bash
+$ git-clone hedzr/mirrot-list
 $ git-clone github.com/hedzr/mirrot-list
 $ git-clone https://github.com/hedzr/mirrot-list
 $ git-clone https://github.com/hedzr/mirrot-list.git
@@ -261,7 +258,7 @@ $ git-clone git@github.com:hedzr/mirrot-list.git
 
 其次，自动 clone 为 hedzr.mirror-list 这样的子目录，要加以注意。
 
-如果不满，自己改改也不苦难。
+如果不满，自己改改也不困难。
 
 git-clone 随 [hedzr/bash.sh](https://github.com/hedzr/bash.sh) 一起提供。
 
@@ -285,7 +282,15 @@ tip() { printf "\e[0;38;2;133;133;133m>>> $@\e[0m\n"; }
 err() { printf "\e[0;33;1;133;133;133m>>> $@\e[0m\n" 1>&2; }
 ```
 
+使用的方法也简单：
 
+```bash
+tip "$HOME" "Folder"
+tip $HOME Folder
+tip "$HOME Folder"
+```
+
+等等。
 
 
 
@@ -295,13 +300,13 @@ err() { printf "\e[0;33;1;133;133;133m>>> $@\e[0m\n" 1>&2; }
 
 
 
-### GitHub Clone
+### GitHub
 
-通过HTTPS协议Clone仓库的话，可能会遇到速度很慢的情况。
+通过 HTTPS 协议 Clone GitHub 仓库的话，可能会遇到速度很慢的情况。
 
-根据经验，在慢的时候中断Clone捎带片刻重复命令的话，你可能会得到正常速度，这种偷鸡的策略适合于小小仓库。
+根据经验，在慢的时候中断 Clone 稍待片刻重复命令的话，你可能会得到正常速度，这种偷鸡的策略适合于小小仓库。
 
-对于大型仓库，改走SSH协议进行clone的话，走到正常速度的几率较大，但此时的速度相较于HTTPS而言通常会有所损耗。
+对于大型仓库，改走 SSH 协议进行 clone 的话，走到正常速度的几率较大，但此时的速度相较于 HTTPS 而言通常会有所损耗。
 
 #### 修改 hosts 文件 (基本失效)
 
@@ -331,8 +336,6 @@ $ dig github.com +short
 140.82.118.3
 ```
 
-
-
 修改 hosts 文件能够起效的原因有赖于IP未被封禁。但实际上这个并不一定如此，封禁是多种手段同时采用的，此外、不同省份地区的不同运营商的具体动作也会有点区别。
 
 比较根本的方法还是两种，一是在国外VPS直接clone，然后rsync到本机；二是git走SSH协议且启用代理。
@@ -351,7 +354,11 @@ host github.com
 
 在这里，定制了免密码时所用的SSH私钥 `~/.ssh/git/id_rsa`，以及通过 `ProxyCommand` 指定了转发 git SSH 流量到 `127.0.0.1:1080` SOCKS5 代理服务器上。
 
-#### Git HTTPS协议代理
+相应地，公钥 `~/.ssh/git/id_rsa.pub` 的内容应该在 GitHub 你的 Settings 区中登记到 SSH Keys 中。
+
+这么做将能够对 pull/push/clone 等全部 git 远程操作生效。
+
+#### Git HTTPS 协议代理
 
 值得注意的是，如果是使用 Git https 协议的话，你需要指定 `HTTPS_PROXY` 环境变量到一个 HTTP 代理，从而转发流量。根据我的经验，在这个时候提供一个诸如 `socks://127.0.0.1:1080` 的 SOCKS4/5 代理，得到的效果会非常有限，不如将该代理包装为 HTTP 后再使用。
 
@@ -367,8 +374,6 @@ host github.com
 [https "https://googlesource.com"]
 	proxy = http://127.0.0.1:8080
 ```
-
-
 
 综合比较起来，Git 走 SSH 协议且采用一个很好的 SOCKS5 服务器的话，会相当顺利，很难遇到各色怪现象。
 
