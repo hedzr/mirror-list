@@ -2,12 +2,11 @@
 
 ## Overview
 
-
 这里做一个集中，尽管以前都是遇到时立即搜索，但是集中一下之后，看起来也很壮观。
 
 ##### 当然，欢迎完善它：
 
-- https://github.com/hedzr/mirror-list
+- <https://github.com/hedzr/mirror-list>
 
 ##### 如何更好的浏览/阅读这篇文章：
 
@@ -19,8 +18,6 @@
 
 详见：[附录一](#附录一)
 
-
-
 ## License
 
 本文中给出的源码像其它软件开发代码一样采用 MIT，随便用。
@@ -28,8 +25,6 @@
 本文的内容，基本上没版权，在公共域。部分内容摘抄自公共服务器，此时请直接查看相应的原始内容，我尽力给出链接指向。有的内容是摘编后的成品，则统一使用内容创作共用 CC4-BY-NC-SA。
 
 本文的排版和组织，如果有所谓，MIT，你还是可以用，随便。
-
-
 
 ## Tools
 
@@ -212,42 +207,112 @@ is_darwin() { [[ $OSTYPE == darwin* ]]; }
 is_git_clean() { git diff-index --quiet $* HEAD -- 2>/dev/null; }
 is_git_dirty() { is_git_clean && return -1 || return 0; }
 git_clone() {
-	# git-clone will pull the repo into 'user.repo/', for example:
-	#   git-clone git@github.com:hedzr/cmdr.git
-	#   git-clone https://github.com/hedzr/cmdr.git
-	#   will pull hedzr/cmdr into 'hedzr.cmdr/' directory.
-	local Repo="${1:-hedzr/cmdr}"
-	local Sep='/'
-	local Prefix='${GIT_PREFIX:-https://}'
-	local Host="${GIT_HOST:-github.com}"
-	[[ $Repo =~ https://* ]] && Repo="${Repo//https:\/\//}" && Prefix='git@'
-	[[ $Repo =~ github.com/* ]] && Repo="${Repo//github.com\//}" && Prefix='git@'
-	[[ $Repo =~ github.com:* ]] && Repo="${Repo//github.com:/}" && Prefix='git@'
-	Repo="${Repo#git@}"
-	Repo="${Repo%.git}"
-	Dir="${Repo//\//.}"
-	# Repo="${Repo#https://github.com/}"
-	# Repo="${Repo#git@github.com:}"
-	# Repo="${Repo%.git}"
-	[[ $Prefix == 'git@' ]] && Sep=':'
-	local Url="${Prefix}${Host}${Sep}${Repo}.git"
-	# tip "Url: $Url"
-	dbg "cloning from $Url ..." && git clone --depth=1 -q "$Url" "$Dir" && dbg "git clone $Url DONE."
+	local Deep="--depth=1" Help Https Dir arg i=1
+	while [[ $# -gt 0 ]]; do
+		case $1 in
+		-h | --help)
+			shift && Help=1
+			cat <<-EOT
+				git-clone helps cloneing git repo simply from github/gitlab/bitbucket
+
+				Usage: git-clone [-d|--deep] [-s|--https] [-o dir|--dir dir] repo
+
+				Description:
+				  git-clone will pull the repo into 'user.repo/', for example:
+					  git-clone hedzr/cmdr
+						GIT_HOST=gitlab.com git-clone hedzr/cmdr
+				    git-clone git@github.com:hedzr/cmdr.git
+				    git-clone https://github.com/hedzr/cmdr.git
+				  will pull hedzr/cmdr into 'hedzr.cmdr/' directory.
+
+				Options and Args:
+
+					'--deep' enables full fetch, default is shallow pull only
+					'--https' enables https protocal, default is ssh protocol
+					'--dir' specifies the cloned target directory, default is 'user.repo'
+
+					'repo' can be these forms:
+						hedzr/cmdr
+						https://github.com/hedzr/cmdr
+						https://github.com/hedzr/cmdr.git
+						github.com:hedzr/cmdr.git
+						git@github.com:hedzr/cmdr.git
+						gitlab.com:hedzr/cmdr
+						bitbucket.com/hedzr/cmdr
+						git.sr.ht/hedzr/cmdr
+						gitee.com/hedzr/cmdr
+						coding.net/hedzr/cmdr
+
+				EnvVars:
+				  GIT_HOSTS    extras git hosts such as your own private host
+				  GIT_HOST     specify git host explicitly if you're using user/repo form.
+
+			EOT
+			;;
+		-d | --deep)
+			# strength=$OPTARG
+			shift && Deep=""
+			;;
+		-s | --https)
+			shift && Https=1
+			;;
+		-o | --dir | --output)
+			Dir="$1" && shift
+			;;
+		*)
+			case $i in
+			1)
+				local Repo="${1:-hedzr/cmdr}"
+				shift
+				;;
+			esac
+			;;
+		esac
+	done
+
+	if [[ "$Help" != 1 ]]; then
+		local Sep='/' Prefix="${GIT_PREFIX:-git@}" Host="${GIT_HOST:-github.com}" h
+		[[ "$Https" -eq 1 ]] && Prefix="https://"
+		[[ "$Repo" =~ https://* ]] && Repo="${Repo//https:\/\//}"
+		for h in github.com gitlab.com bitbucket.com git.sr.ht gitee.com coding.net $GIT_HOSTS; do
+			[[ "$Repo" =~ $h/* ]] && Host=$h && Repo="${Repo//$h\//}"
+			[[ "$Repo" =~ $h:* ]] && Host=$h && Repo="${Repo//$h:/}"
+		done
+		Repo="${Repo#git@}"
+		Repo="${Repo%.git}"
+		[[ "$Dir" == "" ]] && Dir="${Repo//\//.}"
+		[[ "$Prefix" == 'git@' ]] && Sep=':'
+		local Url="${Prefix}${Host}${Sep}${Repo}.git"
+		tip "Url: $Url | Deep?: '$Deep'"
+		tip "Result: git clone $Deep -q "$Url" "$Dir""
+		# dbg "cloning from $Url ..." && git clone $Deep -q "$Url" "$Dir" && dbg "git clone $Url DONE."
+	fi
 }
 alias git-clone=git_clone
 ```
 
 脚本同时适合 bash 和 zsh，直接复制到 `.bashrc` 或 `.zshrc` 即可工作。
 
+> 由于格式的原因（tab 字符），直接从页面上粘贴 git-clone 可能导致问题。如此，推荐直接前往 [这里](https://github.com/hedzr/bash.sh/blob/master/bash.sh#L521) 在编辑器状态下选择并粘贴 bash shell 脚本代码。
+
 用法是：
 
 ```bash
-$ git-clone hedzr/mirrot-list
-$ git-clone github.com/hedzr/mirrot-list
-$ git-clone https://github.com/hedzr/mirrot-list
-$ git-clone https://github.com/hedzr/mirrot-list.git
-$ git-clone git@github.com:hedzr/mirrot-list
-$ git-clone git@github.com:hedzr/mirrot-list.git
+$ git-clone hedzr/mirror-list
+$ git-clone github.com/hedzr/mirror-list
+$ git-clone https://github.com/hedzr/mirror-list
+$ git-clone https://github.com/hedzr/mirror-list.git
+$ git-clone git@github.com:hedzr/mirror-list
+$ git-clone git@github.com:hedzr/mirror-list.git
+$ GIT_HOST=gitlab.com git-clone hedzr/cmdr
+$ GIT_HOSTS=my-code-hub.com git-clone hedzr/cmdr
+# to clone a repo completely:
+$ git-clone --deep hedzr/cmdr
+$ git-clone -d hedzr/cmdr
+# to clone via https protocol rather than default SSH:
+$ git-clone -s hedzr/cmdr
+# give the target directory:
+$ git-clone --dir cmdr hedzr/cmdr
 ```
 
 主打一个容错度高，妈妈说再也不用小心翼翼点 Code 按钮然后点 Copy 按钮了。
@@ -256,9 +321,13 @@ $ git-clone git@github.com:hedzr/mirrot-list.git
 
 你必须已经配置好了本机的 git ssh 协议，因为我们内部自动将一切能识别的 URI 转换为 `git@github.com:hedzr/mirror-list.git` 样式、然后发出 git clone 指令。
 
+> 或者，使用 `-s`|`--https` 参数指明需要走 https 协议。
+
 其次，自动 clone 为 hedzr.mirror-list 这样的子目录，要加以注意。
 
-如果不满，自己改改也不困难。
+> 或者，使用 `-o`|`--dir`|`--output dir` 参数显式指定目标目录。
+
+~~如果不满，自己改改也不困难~~。
 
 git-clone 随 [hedzr/bash.sh](https://github.com/hedzr/bash.sh) 一起提供。
 
