@@ -295,16 +295,15 @@ git_clone() {
 			tip "Result: git clone $Deep -q $Opts "$Url" "$Dir""
 		else
 			dbg "cloning from $Url ..." && git clone $Deep -q $Opts "$Url" "$Dir" && {
-				if (($Verbose)); then
-					local DEBUG=1
-				fi
+				(($Verbose)) && local DEBUG=1
 				dbg "git clone $Url DONE."
-				du -sh "$Dir"
+				(($Verbose)) && du -sh "$Dir" || :
 			}
 		fi
 	fi
 }
 alias git-clone=git_clone
+alias git-clone-deep='git_clone -d'
 ```
 
 脚本同时适合 bash 和 zsh，直接复制到 `.bashrc` 或 `.zshrc` 即可工作。
