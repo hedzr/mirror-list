@@ -284,6 +284,8 @@ git_clone() {
 			[[ "$Repo" =~ $h/* ]] && Host=$h && Repo="${Repo//$h\//}"
 			[[ "$Repo" =~ $h:* ]] && Host=$h && Repo="${Repo//$h:/}"
 		done
+		Repo="${Repo%\#*}"
+		Repo="${Repo%\?*}"
 		Repo="${Repo#git@}"
 		Repo="${Repo%.git}"
 		[[ "$Dir" == "" ]] && Dir="${Repo//\//.}"
