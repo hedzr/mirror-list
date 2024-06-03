@@ -13,6 +13,7 @@
 1. 可以寻找 chrome 插件 Github Markdown Outline Extension，但是我好像是拿来修订了之后才能使用的。
 2. 可以寻找chrome插件 HTML5 Outliner
 3. 下载、拉取到本机并以 Typora 打开浏览
+4. 直接在 GitHub Pages 上阅读：<https://hedzr.com/mirror-list/>
 
 ##### 增加了一个关于 xtom.help 的附录
 
