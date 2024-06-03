@@ -17,6 +17,7 @@ nav:
   # - Usage: usage.md
   # - Blog:
   #    - blog/index.md
+  # - About
 
 # https://www.mkdocs.org/user-guide/choosing-your-theme/
 theme:
