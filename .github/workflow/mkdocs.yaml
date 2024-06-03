@@ -1,0 +1,59 @@
+name: "ci | Publish docs via GitHub Pages"
+
+on:
+  push:
+    branches:
+      - master 
+      - main
+      - devel
+
+permissions:
+  contents: write
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Configure Git Credentials
+        run: |
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+      - uses: actions/setup-python@v5
+        with:
+          python-version: 3.x
+      - run: echo "cache_id=$(date --utc '+%V')" >> $GITHUB_ENV 
+      - uses: actions/cache@v4
+        with:
+          key: mkdocs-material-${{ env.cache_id }}
+          path: .cache
+          restore-keys: |
+            mkdocs-material-
+      - run: |
+          pip install mkdocs-material
+          pip install mkdocs-git-authors-plugin
+      - run: mkdocs gh-deploy --force
+
+# on:
+#   push:
+#     branches:
+#       - master
+
+# jobs:
+#   build:
+#     name: Deploy docs
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Checkout main
+#         uses: actions/checkout@v2
+
+#       - name: Deploy docs
+#         uses: mhausenblas/mkdocs-deploy-gh-pages@master
+#         # Or use mhausenblas/mkdocs-deploy-gh-pages@nomaterial to build without the mkdocs-material theme
+#         # See: https://github.com/marketplace/actions/deploy-mkdocs
+#         env:
+#           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#           CUSTOM_DOMAIN: hedzr.com
+#           CONFIG_FILE: ./mkdocs.yml
+#           EXTRA_PACKAGES: build-base
+#           # GITHUB_DOMAIN: github.myenterprise.com
+#           REQUIREMENTS: ./requirements.txt

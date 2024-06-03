@@ -1,0 +1,106 @@
+# see mkdocs docs at:
+#     https://www.mkdocs.org/user-guide/
+
+site_name: 各种各样的镜像加速
+site_url: https://hedzr.github.io/mirror-list/
+repo_url: https://github.com/hedzr/mirror-list
+site_author: hedzr
+copyright: >
+  Copyright &copy; 2016 - 2024 hedzr –
+  <a href="#__consent">Change cookie settings</a>
+site_description: 壮丽的镜像们
+edit_uri: edit/master/docs/
+
+nav:
+  - Home: index.md
+  # - Install: install.md
+  # - Usage: usage.md
+  # - Blog:
+  #    - blog/index.md
+
+# https://www.mkdocs.org/user-guide/choosing-your-theme/
+theme:
+  # name: readthedocs
+  name: material
+  language: zh
+  # custom_dir: overrides
+  features:
+    - navigation.indexes
+    - header.autohide
+    - navigation.footer
+    - content.action.edit
+  icon:
+    edit: material/pencil 
+    view: material/eye
+  palette:
+    # Palette toggle for automatic mode
+    - media: "(prefers-color-scheme)"
+      toggle:
+        icon: material/brightness-auto
+        name: Switch to light mode
+      primary: blue grey
+
+    # Palette toggle for light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+      primary: blue grey
+
+    # Palette toggle for dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      toggle:
+        icon: material/brightness-4
+        name: Switch to system preference
+      primary: blue grey
+    
+    # primary: blue grey
+    # accent: yellow
+  highlightjs: true
+  analytics:
+    gtag: G-ABC123
+  navigation_depth: 3
+  locale: zh_CN
+  shortcuts:
+    help: 191    # ?
+    next: 78     # n
+    previous: 80 # p
+    search: 83   # s
+  hljs_languages:
+    - yaml
+    - bash
+    - c++
+    - go
+    - rust
+    - ruby
+    - gradle
+    - java
+
+extra:
+  analytics:
+    provider: google
+    property: G-301DLP27SS
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/hedzr/mirror-list
+  consent:
+    title: Cookie consent
+    description: >- 
+      We use cookies to recognize your repeated visits and preferences, as well
+      as to measure the effectiveness of our documentation and whether users
+      find what they're searching for. With your consent, you're helping us to
+      make our documentation better.
+
+plugins:
+  - search
+  - git-authors
+  # - blog:
+  #     archive_date_format: MMMM yyyy
+  #     categories_allowed:
+  #       - Holidays
+  #       - News
+  # - meta
+  - tags
+  - privacy
