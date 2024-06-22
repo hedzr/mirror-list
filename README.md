@@ -30,13 +30,34 @@
 
 #### 关于 xtom.help
 
-[mirrorz](https://github.com/mirrorz-org) 致力于提供 Linux 发行版的镜像源方面的工作，它们提供很好的相关文档以及 CDN 服务以便加速相应镜像源的访问、拉取行为。
-
-所以我在 mirror-list 中列出的和镜像加速相关的内容，很多在 mirrorz 的对应网站 [xtom.help](https://xtom.help/) 都能找到以 mirrorz 身份提供的解决方案。它们的问题在于 mirrorz 也会受到干扰，所以采用 mirrorz 提供的 CDN 是由你自己来决定的。
+> 以下内容过时，请参阅附录二
+>
+> [mirrorz](https://github.com/mirrorz-org) 致力于提供 Linux 发行版的镜像源方面的工作，它们提供很好的相关文档以及 CDN 服务以便加速相应镜像源的访问、拉取行为。
+>
+> 所以我在 mirror-list 中列出的和镜像加速相关的内容，很多在 mirrorz 的对应网站 [xtom.help](https://xtom.help/) 都能找到以 mirrorz 身份提供的解决方案。它们的问题在于 mirrorz 也会受到干扰，所以采用 mirrorz 提供的 CDN 是由你自己来决定的。
+>
 
 但在此基础上，cernet 对 mirrorz 提供了镜像。
 
-所以你也可以访问 [help.mirrors.cernet.edu.cn](https://help.mirrors.cernet.edu.cn/) 来得到一组更大陆的镜像源，不同于 mirrorz 直接原生地提供 CDN 但却常受到干扰，cernet 给出的大陆镜像源基本上都是我们所熟知的那些教育网镜像站，在 [help.mirrors.cernet.edu.cn](https://help.mirrors.cernet.edu.cn/) 上它们被整合到一处了而已。所以好处是你不一定需要去清华、中科大、CQU 等大学的开源软件镜像站具体检索，直接在 [help.mirrors.cernet.edu.cn](https://help.mirrors.cernet.edu.cn/) 就能取用。
+所以你也可以访问 [mirrors.cernet.edu.cn/list](https://mirrors.cernet.edu.cn/list) 来得到一组更大陆的镜像源，不同于 mirrorz 直接原生地提供 CDN 但却常受到干扰，cernet 给出的大陆镜像源基本上都是我们所熟知的那些教育网镜像站，在 [help.mirrors.cernet.edu.cn](https://help.mirrors.cernet.edu.cn/) 上它们被整合到一处了而已。所以好处是你不一定需要去清华、中科大、CQU 等大学的开源软件镜像站具体检索，直接在 [help.mirrors.cernet.edu.cn](https://help.mirrors.cernet.edu.cn/) 就能取用。
+
+按照 mirrorz 的说法，cernet 的这个 list 其实也是用 mirrorz 的 [react nodejs webapp](https://github.com/mirrorz-org/mirrorz) 搭建的。
+
+### 附录二
+
+#### 关于 mirrorz
+
+mirrorz 公益站现在是一个聚集站点，它搜集或登记（你可以登记自己的镜像）了著名的中国大陆开源镜像站点，大部分都是国内大学所建立的。
+
+尽管很多大学的镜像站点有着各式各样的错误、疏漏，但是尽量多的大学踊跃建立镜像是好事，且互相之间存在少量的查漏补缺那就更好。
+
+mirrorz org: <https://github.com/mirrorz-org>
+
+mirrorz webapp repo: <https://github.com/mirrorz-org/mirrorz>
+
+mirrorz site: <https://mirrorz.org/> （help：<https://help.mirrorz.org/>）
+
+看了一下现在的内容，居然没有 mirrors.cqu.edu.cn。
 
 ## Conclusion
 
