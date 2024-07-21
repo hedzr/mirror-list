@@ -1106,8 +1106,8 @@ sudo dnf makecache
 可以更换镜像：
 
 - 阿里：`yarn config set registry https://registry.npmmirror.com`
-- 华为：`yarn config set registry https://mirrors.huaweicloud.com/repository/npm/`
-- Node-Sass：`npm config set sass_binary_site https://mirrors.huaweicloud.com/node-sass/`
+- 华为： `yarn config set registry https://mirrors.huaweicloud.com/repository/npm/`
+- Node-Sass： `npm config set sass_binary_site https://mirrors.huaweicloud.com/node-sass/`
 
 ```bash
 npm config delete registry
@@ -1118,6 +1118,34 @@ yarn config get registry
 yarn config delete registry
 yarn config set registry 
 ```
+
+使用 npm 的示例如下：
+
+```bash
+cd nodejs-project-a
+
+# install fnm
+which fnm 1>/dev/null 2>&1 || curl -fsSL https://fnm.vercel.app/install | bash
+eval $(~/.local/share/fnm/fnm env)
+fnm --version
+
+# install nodejs
+[ -f .node-version ] && cat .node-version || echo v20.13.1 >.node-version
+fnm install
+
+which node && which npm
+node -v && npm -v
+
+# setup mirror site for nodejs
+npm config set registry http://registry.npm.taobao.org/
+
+# install pnpm
+npm i -g npm
+npm i -g pnpm
+npm i -g yarn
+```
+
+DONE.
 
 ### openSUSE 软件源
 
