@@ -571,7 +571,7 @@ Docker CE 的具体加速办法有很多种，然而各种版本的本质都是�
 
 参考：<https://docs.docker.com/engine/reference/commandline/dockerd/#daemon-configuration-file>
 
-附加说明：
+#### 附加说明（过时）：
 
 | 镜像加速器                                                   | 镜像加速器地址                       | 其它加速？                                                   |
 | ------------------------------------------------------------ | ------------------------------------ | ------------------------------------------------------------ |
@@ -581,6 +581,30 @@ Docker CE 的具体加速办法有很多种，然而各种版本的本质都是�
 | [七牛云](https://kirk-enterprise.github.io/hub-docs/#/user-guide/mirror) | `https://reg-mirror.qiniu.com`       | Docker Hub、GCR、Quay                                        |
 | [网易云](https://c.163yun.com/hub)                           | `https://hub-mirror.c.163.com`       | Docker Hub                                                   |
 | [腾讯云](https://cloud.tencent.com/document/product/457/9113) | `https://mirror.ccs.tencentyun.com`  | Docker Hub                                                   |
+
+#### 2024 年下半年起附加说明
+
+https://docker.lmirror.top
+
+[https://docker.m.daocloud.io](https://docker.m.daocloud.io/)
+[https://noohub.ru](https://noohub.ru/)  
+[https://huecker.io](https://huecker.io/)
+[https://dockerhub.timeweb.cloud](https://dockerhub.timeweb.cloud/)
+
+More：
+
+```
+    "https://dockerhub.icu",
+    "https://docker.chenby.cn",
+    "https://docker.1panel.live",
+    "https://docker.awsl9527.cn",
+    "https://docker.anyhub.us.kg",
+    "https://dhub.kubesre.xyz"
+```
+
+其他[镜像源和方法](https://gist.github.com/y0ngb1n/7e8f16af3242c7815e7ca2f0833d3ea6)
+
+
 
 ### Alpine Apk
 
