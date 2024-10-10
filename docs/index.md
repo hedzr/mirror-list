@@ -203,105 +203,112 @@ is_darwin() { [[ $OSTYPE == darwin* ]]; }
 比较频繁地 clone github repos 的时候，这个工具脚本可能会令你 happy：
 
 ```bash
-is_git_clean() { git diff-index --quiet $* HEAD -- 2>/dev/null; }
-is_git_dirty() { is_git_clean && return -1 || return 0; }
+is_git_clean() { git diff-index --quiet "$@" HEAD -- 2>/dev/null; }
+is_git_dirty() {
+	if is_git_clean "$@"; then
+		false
+	else
+		true
+	fi
+}
 git_clone() {
-  local Deep="--depth=1" Help Dryrun Https Dir arg i=1 Verbose=0
-  while [[ $# -gt 0 ]]; do
-    case $1 in
-    -h | --help)
-      shift && Help=1
-      cat <<-EOT
-        git-clone helps cloneing git repo simply from github/gitlab/bitbucket
+	local Deep="--depth=1" Help Dryrun Https Dir arg i=1 Verbose=0
+	while [[ $# -gt 0 ]]; do
+		case $1 in
+		-h | --help)
+			shift && Help=1
+			cat <<-EOT
+				git-clone helps cloneing git repo simply from github/gitlab/bitbucket
 
-        Usage: git-clone [-d|--deep] [-s|--https] [-o dir|--dir dir] repo
+				Usage: git-clone [-d|--deep] [-s|--https] [-o dir|--dir dir] repo
 
-        Description:
-          git-clone will pull the repo into 'user.repo/', for example:
-            git-clone hedzr/cmdr
-            GIT_HOST=gitlab.com git-clone hedzr/cmdr
-            git-clone git@github.com:hedzr/cmdr.git
-            git-clone https://github.com/hedzr/cmdr.git
-          will pull hedzr/cmdr into 'hedzr.cmdr/' directory.
+				Description:
+				  git-clone will pull the repo into 'user.repo/', for example:
+				    git-clone hedzr/cmdr
+				    GIT_HOST=gitlab.com git-clone hedzr/cmdr
+				    git-clone git@github.com:hedzr/cmdr.git
+				    git-clone https://github.com/hedzr/cmdr.git
+				  will pull hedzr/cmdr into 'hedzr.cmdr/' directory.
 
-        Options and Args:
+				Options and Args:
 
-          '--deep' enables full fetch, default is shallow pull only
-          '--https' enables https protocal, default is ssh protocol
-          '--dir' specifies the cloned target directory, default is 'user.repo'
+				  '--deep' enables full fetch, default is shallow pull only
+				  '--https' enables https protocal, default is ssh protocol
+				  '--dir' specifies the cloned target directory, default is 'user.repo'
 
-          'repo' can be these forms:
-            hedzr/cmdr
-            https://github.com/hedzr/cmdr
-            https://github.com/hedzr/cmdr.git
-            github.com:hedzr/cmdr.git
-            git@github.com:hedzr/cmdr.git
-            gitlab.com:hedzr/cmdr
-            bitbucket.com/hedzr/cmdr
-            git.sr.ht/hedzr/cmdr
-            gitee.com/hedzr/cmdr
-            coding.net/hedzr/cmdr
+				  'repo' can be these forms:
+				    hedzr/cmdr
+				    https://github.com/hedzr/cmdr
+				    https://github.com/hedzr/cmdr.git
+				    github.com:hedzr/cmdr.git
+				    git@github.com:hedzr/cmdr.git
+				    gitlab.com:hedzr/cmdr
+				    bitbucket.com/hedzr/cmdr
+				    git.sr.ht/hedzr/cmdr
+				    gitee.com/hedzr/cmdr
+				    coding.net/hedzr/cmdr
 
-        EnvVars:
-          GIT_HOSTS    extras git hosts such as your own private host
-          GIT_HOST     specify git host explicitly if you're using user/repo form.
+				EnvVars:
+				  GIT_HOSTS    extras git hosts such as your own private host
+				  GIT_HOST     specify git host explicitly if you're using user/repo form.
 
-      EOT
-      ;;
-    -d | --deep)
-      # strength=$OPTARG
-      shift && Deep=""
-      ;;
-    -dr | --dry-run | --dryrun)
-      shift && Dryrun=1
-      ;;
-    -s | --https)
-      shift && Https=1
-      ;;
-    -o | --dir | --output)
-      shift && Dir="$1" && shift
-      ;;
-    -v | --verbose)
-      Verbose=1 && shift
-      ;;
-    *)
-      case $i in
-      1)
-        local Repo="${1:-hedzr/cmdr}"
-        shift
-        ;;
-      esac
-      ;;
-    esac
-  done
+			EOT
+			;;
+		-d | --deep)
+			# strength=$OPTARG
+			shift && Deep=""
+			;;
+		-dr | --dry-run | --dryrun)
+			shift && Dryrun=1
+			;;
+		-s | --https)
+			shift && Https=1
+			;;
+		-o | --dir | --output)
+			shift && Dir="$1" && shift
+			;;
+		-v | --verbose)
+			Verbose=1 && shift
+			;;
+		*)
+			case $i in
+			1)
+				local Repo="${1:-hedzr/cmdr}"
+				shift
+				;;
+			esac
+			;;
+		esac
+	done
 
-  if [[ "$Help" != 1 ]]; then
-    local Sep='/' Prefix="${GIT_PREFIX:-git@}" Host="${GIT_HOST:-github.com}" h
-    [[ "$Https" -eq 1 ]] && Prefix="https://"
-    [[ "$Repo" =~ https://* ]] && Repo="${Repo//https:\/\//}"
-    for h in github.com gitlab.com bitbucket.com git.sr.ht gitee.com coding.net $GIT_HOSTS; do
-      [[ "$Repo" =~ $h/* ]] && Host=$h && Repo="${Repo//$h\//}"
-      [[ "$Repo" =~ $h:* ]] && Host=$h && Repo="${Repo//$h:/}"
-    done
-    Repo="${Repo%\#*}"
-    Repo="${Repo%\?*}"
-    Repo="${Repo#git@}"
-    Repo="${Repo%.git}"
-    [[ "$Dir" == "" ]] && Dir="${Repo//\//.}"
-    [[ "$Prefix" == 'git@' ]] && Sep=':'
-    local Url="${Prefix}${Host}${Sep}${Repo}.git" Opts=""
-    (($Verbose)) && Opts="--verbose"
-    if [[ "$Dryrun" -ne 0 ]]; then
-      tip "Url: $Url | Deep?: '$Deep' | Opts: '$Opts'"
-      tip "Result: git clone $Deep -q $Opts "$Url" "$Dir""
-    else
-      dbg "cloning from $Url ..." && git clone $Deep -q $Opts "$Url" "$Dir" && {
-        (($Verbose)) && local DEBUG=1
-        dbg "git clone $Url DONE."
-        (($Verbose)) && du -sh "$Dir" || :
-      }
-    fi
-  fi
+	if [[ "$Help" != 1 ]]; then
+		local Sep='/' Prefix="${GIT_PREFIX:-git@}" Host="${GIT_HOST:-github.com}" h
+		[[ "$Https" -eq 1 ]] && Prefix="https://"
+		[[ "$Repo" =~ https://* ]] && Repo="${Repo//https:\/\//}"
+		for h in github.com gitlab.com bitbucket.com git.sr.ht gitee.com coding.net $GIT_HOSTS; do
+			[[ "$Repo" =~ $h/* ]] && Host=$h && Repo="${Repo//$h\//}"
+			[[ "$Repo" =~ $h:* ]] && Host=$h && Repo="${Repo//$h:/}"
+		done
+		Repo="${Repo%\#*}"
+		Repo="${Repo%\?*}"
+		Repo="${Repo#git@}"
+		Repo="${Repo%.git}"
+		Repo="${Repo%/blob/*}"
+		[[ "$Dir" == "" ]] && Dir="${Repo//\//.}"
+		[[ "$Prefix" == 'git@' ]] && Sep=':'
+		local Url="${Prefix}${Host}${Sep}${Repo}.git" Opts=""
+		(($Verbose)) && Opts="--verbose"
+		if [[ "$Dryrun" -ne 0 ]]; then
+			tip "Url: $Url | Deep?: '$Deep' | Opts: '$Opts'"
+			tip "Result: git clone $Deep -q $Opts "$Url" "$Dir""
+		else
+			dbg "cloning from $Url ..." && git clone $Deep -q $Opts "$Url" "$Dir" && {
+				(($Verbose)) && local DEBUG=1
+				dbg "git clone $Url DONE."
+				(($Verbose)) && du -sh "$Dir" || :
+			}
+		fi
+	fi
 }
 alias git-clone=git_clone
 alias git-clone-deep='git_clone -d'
